@@ -6,6 +6,7 @@ class Door {
     this.open = false;
   }
 
+  //may use later for additional styling
   openDoor() {
     this.open = true;
   }

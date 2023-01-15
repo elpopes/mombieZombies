@@ -6,6 +6,7 @@ class Window {
     this.broken = false;
   }
 
+  // may use later for added styling
   breakWindow() {
     this.broken = true;
   }

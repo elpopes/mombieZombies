@@ -44,6 +44,7 @@ class Room {
     const heightScale = this.canvasHeight / this.roomHeight;
     return Math.min(widthScale, heightScale);
   }
+
   calculateLeftDoorPosition() {
     // position the door in the middle of the left wall, aligned with the circle
     const doorX = 0;
@@ -58,6 +59,7 @@ class Room {
     return { x: doorX, y: doorY };
   }
 
+  // position each window using the room width to find the quadrants
   calculateWindowPosition(quadrant) {
     const windowWidth = 75;
     const windowHeight = 5;
