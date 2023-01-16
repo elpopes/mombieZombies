@@ -1,14 +1,23 @@
 import Baby from "./baby";
 import Mombie from "./mombie";
+import Ball from "./ball";
+import Util from "./util";
 
-export class Game {
-  constructor(projectiles, player, room, util) {
-    this.projectiles = projectiles;
+class Game {
+  constructor(room, canvas) {
+    this.balls = [];
     this.mombies = [];
     this.babies = [];
-    this.player = player;
+    this.ctx = canvas.getContext("2d");
+    this.canvas = canvas;
+    // this.player = player;
     this.room = room;
     this.level = 1;
+    this.createBall();
+  }
+
+  createBall() {
+    this.balls.push(new Ball(this.room, this.canvas));
   }
 
   createBabies(num) {
@@ -23,10 +32,13 @@ export class Game {
     }
   }
 
-  update() {
-    // Update positions of projectiles, mombies, babies, and player
-    for (let i = 0; i < this.projectiles.length; i++) {
-      this.projectiles[i].update();
+  update(deltaTime) {
+    // Clear the canvas
+    this.ctx.clearRect(0, 0, this.room.roomWidth, this.room.roomHeight);
+
+    // Update positions of ball, mombies, babies, and player
+    for (let i = 0; i < this.balls.length; i++) {
+      this.balls[i].update(deltaTime);
     }
     for (let i = 0; i < this.mombies.length; i++) {
       this.mombies[i].update();
@@ -34,41 +46,54 @@ export class Game {
     for (let i = 0; i < this.babies.length; i++) {
       this.babies[i].update();
     }
-    this.player.update();
+    // this.player.update();
     // Check for collisions
     this.checkCollision();
     // Check if all mombies have been knocked out the window
-    this.checkLevel();
+    // this.checkLevel();
+    // Draw the room
+    this.room.draw(this.ctx);
+    // Draw the ball, mombies and babies
+    for (let i = 0; i < this.balls.length; i++) {
+      this.balls[i].draw(this.ctx);
+    }
+    for (let i = 0; i < this.mombies.length; i++) {
+      this.mombies[i].draw(this.ctx);
+    }
+    for (let i = 0; i < this.babies.length; i++) {
+      this.babies[i].draw(this.ctx);
+    }
+    // this.player.draw(this.ctx);
   }
 
   checkCollision() {
-    // Check for collisions between projectiles and mombies
-    for (let i = 0; i < this.projectiles.length; i++) {
+    // Check for collisions between ball and mombies
+    for (let i = 0; i < this.balls.length; i++) {
       for (let j = 0; j < this.mombies.length; j++) {
-        if (this.projectiles[i].collidesWith(this.mombies[j])) {
-          this.projectiles[i].handleImpact(this.mombies[j]);
-          this.mombies[j].handleImpact(this.projectiles[i]);
+        if (this.balls[i].collidesWith(this.mombies[j])) {
+          this.balls[i].handleImpact(this.mombies[j]);
+          this.mombies[j].handleImpact(this.ball[i]);
         }
       }
     }
     // Check for collisions between player and mombies
-    for (let i = 0; i < this.mombies.length; i++) {
-      if (this.player.collidesWith(this.mombies[i])) {
-        this.player.handleImpact(this.mombies[i]);
-        this.mombies[i].handleImpact(this.player);
-      }
-    }
+    // for (let i = 0; i < this.mombies.length; i++) {
+    //   if (this.player.collidesWith(this.mombies[i])) {
+    //     this.player.handleImpact(this.mombies[i]);
+    //     this.mombies[i].handleImpact(this.player);
+    //   }
+    // }
     // Check for collision between player and babies
-    for (let i = 0; i < this.babies.length; i++) {
-      if (this.player.collidesWith(this.babies[i])) {
-        this.player.handlePickUp(this.babies[i]);
-        this.babies[i].handleImpact(this.player);
-      }
-    }
+    // for (let i = 0; i < this.babies.length; i++) {
+    //   if (this.player.collidesWith(this.babies[i])) {
+    //     this.player.handlePickUp(this.babies[i]);
+    //     this.babies[i].handleImpact(this.player);
+    //   }
+    // }
     // Check for collision with walls
-    for (let i = 0; i < this.projectiles.length; i++) {
-      if (this.projectiles[i].collidesWith(this.room)) {
-        this.projectiles[i].handleWallImpact(this.room);
+    for (let i = 0; i < this.balls.length; i++) {
+      if (this.balls[i].collidesWith(this.room)) {
+        this.balls[i].handleWallImpact(this.room);
       }
     }
     for (let i = 0; i < this.mombies.length; i++) {
@@ -76,8 +101,10 @@ export class Game {
         this.mombies[i].handleWallImpact(this.room);
       }
     }
-    if (this.player.collidesWith(this.room)) {
-      this.player.handleWallImpact(this.room);
-    }
+    // if (this.player.collidesWith(this.room)) {
+    //   this.player.handleWallImpact(this.room);
+    // }
   }
 }
+
+export default Game;

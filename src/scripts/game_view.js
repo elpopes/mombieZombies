@@ -1,7 +1,8 @@
 import Room from "./room";
+import Game from "./game";
 
 class GameView {
-  constructor(canvas, ctx, game) {
+  constructor(canvas, ctx) {
     // this.game = game;
     this.canvas = canvas;
     this.ctx = ctx;
@@ -32,6 +33,26 @@ class GameView {
 
   start() {
     this.room.draw(this.ctx);
+    this.game = new Game(this.room, this.canvas);
+
+    let lastFrameTime = Date.now();
+    this.loop = () => {
+      let currentTime = Date.now();
+      let deltaTime = currentTime - lastFrameTime;
+      lastFrameTime = currentTime;
+
+      this.game.update(deltaTime);
+      requestAnimationFrame(this.loop);
+    };
+    this.loop();
+  }
+
+  loop() {
+    const now = Date.now();
+    const deltaTime = now - this.lastTime;
+    this.game.update(deltaTime);
+    this.lastTime = now;
+    requestAnimationFrame(this.loop.bind(this));
   }
 }
 export default GameView;

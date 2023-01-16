@@ -50,5 +50,4 @@ class Baby {
     };
   }
 }
-
 export default Baby;
