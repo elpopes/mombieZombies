@@ -3,21 +3,25 @@ class Ball {
     this.room = room;
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
-    this.position = [
-      (room.roomWidth * room.scale) / 2,
-      (room.roomHeight * room.scale) / 2,
-    ];
+    this.position = this.center(room);
     this.radius = 15;
     this.color = "red";
     this.velocity = [0, 0];
     this.pullDirection = [0, 0];
-    this.decay = 0.99;
+    this.decay = 0.97;
     this.firedTime = null;
 
     // Event listeners for firing
     window.addEventListener("mousedown", (event) => this.startPulling(event));
     window.addEventListener("mousemove", (event) => this.pull(event));
     window.addEventListener("mouseup", (event) => this.fire());
+  }
+
+  center(room) {
+    return [
+      (room.roomWidth * room.scale) / 2,
+      (room.roomHeight * room.scale) / 2,
+    ];
   }
 
   startPulling(event) {
@@ -39,13 +43,13 @@ class Ball {
     if (!this.pulling) return;
     this.pulling = false;
     // Set the velocity to be the opposite of the pull direction
-    this.velocity = [-this.pullDirection[0] / 10, -this.pullDirection[1] / 10];
+    this.velocity = [-this.pullDirection[0] / 30, -this.pullDirection[1] / 30];
     this.pullDirection = [0, 0];
     // Save the time the projectile was fired
     this.firedTime = Date.now();
   }
 
-  collidesWith(room) {
+  collidesWith(room, deltaTime) {
     // Check for collision with the walls
     if (
       this.position[0] - this.radius <= 0 * room.scale ||
@@ -103,7 +107,25 @@ class Ball {
     this.position[0] += this.velocity[0] * deltaTime;
     this.position[1] += this.velocity[1] * deltaTime;
     // Check for collision with the walls and windows
-    this.collidesWith(this.room);
+    this.collidesWith(this.room, deltaTime);
+    // Slow down the projectile over time
+    this.velocity[0] *= this.decay;
+    this.velocity[1] *= this.decay;
+
+    // if ball stops moving recenter
+    if (
+      Math.abs(this.velocity[0]) < 0.01 &&
+      Math.abs(this.velocity[1]) < 0.01
+    ) {
+      this.position = this.center(this.room);
+      this.velocity = [0, 0];
+    }
+
+    // Clear the projectile after 4 seconds
+    // if (this.firedTime && Date.now() - this.firedTime > 4000) {
+    //   this.position = this.center(this.room);
+    //   this.firedTime = null;
+    // }
     this.draw();
   }
 
@@ -120,19 +142,19 @@ class Ball {
     );
     this.ctx.fill();
 
-    // Update the position based on the velocity
-    this.position[0] += this.velocity[0];
-    this.position[1] += this.velocity[1];
+    // // Update the position based on the velocity
+    // this.position[0] += this.velocity[0];
+    // this.position[1] += this.velocity[1];
 
-    // Slow down the projectile over time
-    this.velocity[0] *= this.decay;
-    this.velocity[1] *= this.decay;
+    // // Slow down the projectile over time
+    // this.velocity[0] *= this.decay;
+    // this.velocity[1] *= this.decay;
 
     // Clear the projectile after 4 seconds
-    if (this.firedTime && Date.now() - this.firedTime > 4000) {
-      this.position = [-100, -100];
-      this.firedTime = null;
-    }
+    // if (this.firedTime && Date.now() - this.firedTime > 4000) {
+    //   this.position = [-100, -100];
+    //   this.firedTime = null;
+    // }
   }
 }
 

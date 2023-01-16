@@ -48,7 +48,7 @@ class Game {
     }
     // this.player.update();
     // Check for collisions
-    this.checkCollision();
+    // this.checkCollision();
     // Check if all mombies have been knocked out the window
     // this.checkLevel();
     // Draw the room
@@ -68,14 +68,14 @@ class Game {
 
   checkCollision() {
     // Check for collisions between ball and mombies
-    for (let i = 0; i < this.balls.length; i++) {
-      for (let j = 0; j < this.mombies.length; j++) {
-        if (this.balls[i].collidesWith(this.mombies[j])) {
-          this.balls[i].handleImpact(this.mombies[j]);
-          this.mombies[j].handleImpact(this.ball[i]);
-        }
-      }
-    }
+    // for (let i = 0; i < this.balls.length; i++) {
+    //   for (let j = 0; j < this.mombies.length; j++) {
+    //     if (this.balls[i].collidesWith(this.mombies[j])) {
+    //       this.balls[i].handleImpact(this.mombies[j]);
+    //       this.mombies[j].handleImpact(this.balls[i]);
+    //     }
+    //   }
+    // }
     // Check for collisions between player and mombies
     // for (let i = 0; i < this.mombies.length; i++) {
     //   if (this.player.collidesWith(this.mombies[i])) {
@@ -92,15 +92,15 @@ class Game {
     // }
     // Check for collision with walls
     for (let i = 0; i < this.balls.length; i++) {
-      if (this.balls[i].collidesWith(this.room)) {
-        this.balls[i].handleWallImpact(this.room);
+      if (this.balls[i].collidesWith(this.room, deltaTime)) {
+        this.balls[i].handleWallImpact(this.room, deltaTime);
       }
     }
-    for (let i = 0; i < this.mombies.length; i++) {
-      if (this.mombies[i].collidesWith(this.room)) {
-        this.mombies[i].handleWallImpact(this.room);
-      }
-    }
+    // for (let i = 0; i < this.mombies.length; i++) {
+    //   if (this.mombies[i].collidesWith(this.room, deltaTime)) {
+    //     this.mombies[i].handleWallImpact(this.room, deltaTime);
+    //   }
+    // }
     // if (this.player.collidesWith(this.room)) {
     //   this.player.handleWallImpact(this.room);
     // }
