@@ -8,7 +8,7 @@ class Mombie {
     const randomDoor = Math.random() < 0.5 ? room.leftDoor : room.rightDoor;
     this.position = {
       x: randomDoor.position.x,
-      y: (room.roomHeight * room.scale) / 2,
+      y: room.roomHeight / 2,
     };
     this.dir = randomDoor.dir;
 
@@ -24,13 +24,7 @@ class Mombie {
   draw(ctx) {
     ctx.fillStyle = "purple";
     ctx.beginPath();
-    ctx.arc(
-      this.position.x * this.room.scale,
-      this.position.y,
-      this.radius,
-      0,
-      2 * Math.PI
-    );
+    ctx.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
     this.ctx.fill();
   }
 

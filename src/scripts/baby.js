@@ -18,10 +18,7 @@ class Baby {
   }
 
   center(room) {
-    return [
-      (room.roomWidth * room.scale) / 2,
-      (room.roomHeight * room.scale) / 2,
-    ];
+    return [room.roomWidth / 2, room.roomHeight / 2];
   }
 
   moveInCircle() {

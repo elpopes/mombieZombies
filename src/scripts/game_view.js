@@ -10,8 +10,8 @@ class GameView {
     window.addEventListener("resize", this.handleResize.bind(this));
   }
   setCanvasDimensions() {
-    this.canvas.width = window.innerWidth * 0.9;
-    this.canvas.height = window.innerHeight * 0.9;
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
     this.room = new Room(this.canvas.width, this.canvas.height);
   }
 

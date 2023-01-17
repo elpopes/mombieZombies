@@ -3,15 +3,8 @@ import Window from "./window";
 
 class Room {
   constructor(canvasWidth, canvasHeight) {
-    this.canvasWidth = canvasWidth;
-    this.canvasHeight = canvasHeight;
-
-    // Set the room dimensions to be 90% of the canvas dimensions
-    this.roomWidth = canvasWidth * 0.9;
-    this.roomHeight = canvasHeight * 0.9;
-
-    // Calculate the scaling factor
-    this.scale = this.calculateScale();
+    this.roomWidth = canvasWidth;
+    this.roomHeight = canvasHeight;
 
     // Set the circle radius
     this.circleRadius = 125;
@@ -39,12 +32,6 @@ class Room {
     this.bottomRightWindow = new Window(
       this.calculateWindowPosition("bottomRight")
     );
-  }
-
-  calculateScale() {
-    const widthScale = this.canvasWidth / this.roomWidth;
-    const heightScale = this.canvasHeight / this.roomHeight;
-    return Math.min(widthScale, heightScale);
   }
 
   calculateLeftDoorPosition() {
@@ -91,9 +78,6 @@ class Room {
 
     // Save the current state of the canvas
     ctx.save();
-
-    // Scale the canvas
-    ctx.scale(this.scale, this.scale);
 
     // Draw the room
     ctx.fillStyle = "white";

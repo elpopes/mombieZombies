@@ -18,10 +18,7 @@ class Ball {
   }
 
   center(room) {
-    return [
-      (room.roomWidth * room.scale) / 2,
-      (room.roomHeight * room.scale) / 2,
-    ];
+    return [room.roomWidth / 2, room.roomHeight / 2];
   }
 
   startPulling(event) {
@@ -102,13 +99,13 @@ class Ball {
     // Check for collision with the walls
     if (
       this.position[0] - this.radius <= 0 ||
-      this.position[0] + this.radius >= room.roomWidth * room.scale
+      this.position[0] + this.radius >= room.roomWidth
     ) {
       this.velocity[0] *= -1;
     }
     if (
       this.position[1] - this.radius <= 0 ||
-      this.position[1] + this.radius >= room.roomHeight * room.scale
+      this.position[1] + this.radius >= room.roomHeight
     ) {
       this.velocity[1] *= -1;
     }
