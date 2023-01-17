@@ -20,12 +20,14 @@ class Room {
     this.leftDoor = new Door(
       this.calculateLeftDoorPosition(),
       this.doorWidth,
-      this.doorHeight
+      this.doorHeight,
+      1
     );
     this.rightDoor = new Door(
       this.calculateRightDoorPosition(),
       this.doorWidth,
-      this.doorHeight
+      this.doorHeight,
+      -1
     );
 
     //call the calculateWindowPosition and use it instantiate four windows
@@ -97,7 +99,7 @@ class Room {
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, this.roomWidth, this.roomHeight);
     ctx.strokeStyle = "black";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;
     ctx.strokeRect(0, 0, this.roomWidth, this.roomHeight);
 
     // Draw the doors

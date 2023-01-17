@@ -1,9 +1,10 @@
 class Door {
-  constructor(position, width = 5, height = 100) {
+  constructor(position, width = 5, height = 100, direction) {
     this.position = position;
     this.width = width;
     this.height = height;
     this.open = false;
+    this.dir = direction;
   }
 
   //may use later for additional styling

@@ -3,7 +3,6 @@ import Game from "./game";
 
 class GameView {
   constructor(canvas, ctx) {
-    // this.game = game;
     this.canvas = canvas;
     this.ctx = ctx;
     this.setCanvasDimensions();

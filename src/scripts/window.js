@@ -1,5 +1,5 @@
 class Window {
-  constructor(position, width = 75, height = 5) {
+  constructor(position, width = 200, height = 5) {
     this.position = position;
     this.width = width;
     this.height = height;

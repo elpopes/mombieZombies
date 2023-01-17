@@ -50,9 +50,58 @@ class Ball {
   }
 
   collidesWith(room, deltaTime) {
+    // Check for collision with the windows
+    // Top left
+    if (
+      this.position[0] >= this.room.topLeftWindow.position.x &&
+      this.position[0] <=
+        this.room.topLeftWindow.position.x + room.topLeftWindow.width &&
+      this.position[1] - this.radius <=
+        this.room.topLeftWindow.position.y + this.room.topLeftWindow.height
+    ) {
+      this.position = this.center(this.room);
+      this.velocity = [0, 0];
+    }
+    // Top right
+    if (
+      this.position[0] >= this.room.topRightWindow.position.x &&
+      this.position[0] <=
+        this.room.topRightWindow.position.x + this.room.topRightWindow.width &&
+      this.position[1] - this.radius <=
+        this.room.topRightWindow.position.y + this.room.topLeftWindow.height
+    ) {
+      this.position = this.center(this.room);
+      this.velocity = [0, 0];
+    }
+    // Bottom left
+    if (
+      this.position[0] >= this.room.bottomLeftWindow.position.x &&
+      this.position[0] <=
+        this.room.bottomLeftWindow.position.x +
+          this.room.bottomLeftWindow.width &&
+      this.position[1] + this.radius >=
+        this.room.bottomLeftWindow.position.y -
+          this.room.bottomLeftWindow.height
+    ) {
+      this.position = this.center(this.room);
+      this.velocity = [0, 0];
+    }
+    // Bottom right
+    if (
+      this.position[0] >= this.room.bottomRightWindow.position.x &&
+      this.position[0] <=
+        this.room.bottomRightWindow.position.x +
+          this.room.bottomRightWindow.width &&
+      this.position[1] >=
+        this.room.bottomRightWindow.position.y -
+          this.room.bottomLeftWindow.height
+    ) {
+      this.position = this.center(this.room);
+      this.velocity = [0, 0];
+    }
     // Check for collision with the walls
     if (
-      this.position[0] - this.radius <= 0 * room.scale ||
+      this.position[0] - this.radius <= 0 ||
       this.position[0] + this.radius >= room.roomWidth * room.scale
     ) {
       this.velocity[0] *= -1;
@@ -62,43 +111,6 @@ class Ball {
       this.position[1] + this.radius >= room.roomHeight * room.scale
     ) {
       this.velocity[1] *= -1;
-    }
-
-    // Check for collision with the windows
-    if (
-      this.position[0] >= room.topLeftWindow.x &&
-      this.position[0] <= room.topLeftWindow.x + room.topLeftWindow.width &&
-      this.position[1] >= room.topLeftWindow.y &&
-      this.position[1] <= room.topLeftWindow.y + room.topLeftWindow.height
-    ) {
-      this.position = [-100, -100];
-    }
-    if (
-      this.position[0] >= room.topRightWindow.x &&
-      this.position[0] <= room.topRightWindow.x + room.topRightWindow.width &&
-      this.position[1] >= room.topRightWindow.y &&
-      this.position[1] <= room.topRightWindow.y + room.topRightWindow.height
-    ) {
-      this.position = [-100, -100];
-    }
-    if (
-      this.position[0] >= room.bottomLeftWindow.x &&
-      this.position[0] <=
-        room.bottomLeftWindow.x + room.bottomLeftWindow.width &&
-      this.position[1] >= room.bottomLeftWindow.y &&
-      this.position[1] <= room.bottomLeftWindow.y + room.bottomLeftWindow.height
-    ) {
-      this.position = [-100, -100];
-    }
-    if (
-      this.position[0] >= room.bottomRightWindow.x &&
-      this.position[0] <=
-        room.bottomRightWindow.x + room.bottomRightWindow.width &&
-      this.position[1] >= room.bottomRightWindow.y &&
-      this.position[1] <=
-        room.bottomRightWindow.y + room.bottomRightWindow.height
-    ) {
-      this.position = [-100, -100];
     }
   }
 
