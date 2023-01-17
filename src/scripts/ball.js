@@ -117,6 +117,7 @@ class Ball {
     this.position[1] += this.velocity[1] * deltaTime;
     // Check for collision with the walls and windows
     this.collidesWith(this.room, deltaTime);
+
     // Slow down the projectile over time
     this.velocity[0] *= this.decay;
     this.velocity[1] *= this.decay;
@@ -135,7 +136,7 @@ class Ball {
     //   this.position = this.center(this.room);
     //   this.firedTime = null;
     // }
-    this.draw();
+    // this.draw(this.ctx);
   }
 
   draw() {

@@ -31,7 +31,7 @@ class Game {
   createMombies(num) {
     for (let i = 0; i < num; i++) {
       this.mombies.push(
-        new Mombie(this.mombies.length, this.room, this.canvas)
+        new Mombie(this.mombies.length, this.room, this.canvas, this.balls[0])
       );
     }
   }

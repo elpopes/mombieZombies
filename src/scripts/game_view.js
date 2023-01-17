@@ -31,7 +31,7 @@ class GameView {
   }
 
   start() {
-    this.room.draw(this.ctx);
+    // this.room.draw(this.ctx);
     this.game = new Game(this.room, this.canvas);
 
     let lastFrameTime = Date.now();
