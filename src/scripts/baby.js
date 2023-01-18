@@ -10,13 +10,13 @@ class Baby {
   }
 
   update() {
-    if (!this.attachedToMombie && !this.collidesWith(this.room)) {
+    if (!this.attachedToMombie) {
       this.moveInCircle();
     } else {
       this.position = this.mombie.position;
     }
 
-    this.collidesWith(this.room);
+    // this.collidesWith(this.room);
     this.draw(this.ctx);
   }
 
@@ -46,7 +46,15 @@ class Baby {
 
   getDropped() {
     this.attachedToMombie = false;
-    this.mombieId = null;
+    // this.getAwayFrom(this.mombie);
+    this.position = this.randomPosition(this.room);
+    this.draw(this.ctx);
+  }
+
+  getAwayFrom(mombie) {
+    this.position.x = this.mombie.position.x - mombie.radius * 2;
+    this.position.y = this.mombie.position.y - mombie.radius * 2;
+    this.update();
   }
 
   draw(ctx) {

@@ -31,27 +31,31 @@ class GameView {
   }
 
   start() {
-    // this.room.draw(this.ctx);
     this.game = new Game(this.room, this.canvas);
+    this.room.draw(this.ctx);
 
     let lastFrameTime = Date.now();
+
     this.loop = () => {
-      let currentTime = Date.now();
-      let deltaTime = currentTime - lastFrameTime;
-      lastFrameTime = currentTime;
+      if (this.game.mombies.length < 1) {
+        this.game.levelUp();
+      } else {
+        // debugger;
+        let currentTime = Date.now();
+        let deltaTime = currentTime - lastFrameTime;
+        lastFrameTime = currentTime;
 
-      this.game.update(deltaTime);
-      requestAnimationFrame(this.loop);
+        this.game.update(deltaTime);
+        requestAnimationFrame(this.loop);
+      }
     };
-    this.loop();
-  }
 
-  loop() {
-    const now = Date.now();
-    const deltaTime = now - this.lastTime;
-    this.game.update(deltaTime);
-    this.lastTime = now;
-    requestAnimationFrame(this.loop.bind(this));
+    this.loop();
   }
 }
 export default GameView;
+
+// else if (this.game.gameOver === true) {
+//     debugger;
+//     this.game.gameOver();
+//   }
