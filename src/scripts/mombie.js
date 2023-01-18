@@ -177,9 +177,12 @@ class Mombie {
 
   pickUpBaby(baby) {
     this.hasBaby = true;
-    baby.position = { x: this.position.x, y: this.position.y };
-    baby.velocity = { x: this.velocity.x, y: this.velocity.y };
-    // baby.isHeld = true;
+    baby.getPickedUp(this);
+  }
+
+  dropBaby(baby) {
+    this.hasBaby = false;
+    baby.getDropped();
   }
 
   findNearestDoor() {

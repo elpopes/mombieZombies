@@ -39,8 +39,13 @@ class Ball {
   fire() {
     if (!this.pulling) return;
     this.pulling = false;
-    // Set the velocity to be the opposite of the pull direction
-    this.velocity = [-this.pullDirection[0] / 15, -this.pullDirection[1] / 15];
+    // Add a speed variable
+    let speed = 100;
+    // Set the velocity to be the opposite of the pull direction divided by speed
+    this.velocity = [
+      -this.pullDirection[0] / speed,
+      -this.pullDirection[1] / speed,
+    ];
     this.pullDirection = [0, 0];
     // Save the time the projectile was fired
     this.firedTime = Date.now();

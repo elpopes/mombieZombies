@@ -4,16 +4,19 @@ class Baby {
     this.ctx = ctx;
     this.position = this.randomPosition(this.room);
     this.room.center = this.center(room);
-    this.velocity = this.randomVec(0.1);
     this.radius = 20;
     this.attachedToMombie = false;
-    this.mombieId = null;
+    this.mombie = null;
   }
 
   update() {
-    if (!this.attachedToMombie) {
+    if (!this.attachedToMombie && !this.collidesWith(this.room)) {
       this.moveInCircle();
+    } else {
+      this.position = this.mombie.position;
     }
+
+    this.collidesWith(this.room);
     this.draw(this.ctx);
   }
 
@@ -22,16 +25,23 @@ class Baby {
   }
 
   moveInCircle() {
-    this.position.x += this.velocity.x;
-    this.position.y += this.velocity.y;
-    if (this.dist(this.position, this.room.center) > this.room.radius / 4) {
-      this.velocity = this.scale(this.velocity, -1);
-    }
+    // Calculate the angle between the current position and the center of the room
+    let angle = Math.atan2(
+      this.position.y - this.room.center[1],
+      this.position.x - this.room.center[0]
+    );
+    // Increment the angle by a small amount
+    angle += 0.01;
+    // Use the angle to calculate the new x and y positions
+    this.position.x =
+      this.room.center[0] + (Math.cos(angle) * this.room.circleRadius) / 4;
+    this.position.y =
+      this.room.center[1] + (Math.sin(angle) * this.room.circleRadius) / 4;
   }
 
-  getPickedUp(mombieId) {
+  getPickedUp(mombie) {
     this.attachedToMombie = true;
-    this.mombieId = mombieId;
+    this.mombie = mombie;
   }
 
   getDropped() {
@@ -48,37 +58,27 @@ class Baby {
     ctx.fill();
   }
 
-  getBounds() {
-    return {
-      x: this.position.x,
-      y: this.position.y,
-      r: this.radius,
-    };
-  }
-
   randomPosition(room) {
     let angle = Math.random() * 2 * Math.PI;
-    let x = room.roomWidth / 2 + room.circleRadius * Math.cos(angle);
-    let y = room.roomHeight / 2 + room.circleRadius * Math.sin(angle);
+    let x = room.roomWidth / 2 + (room.circleRadius / 2) * Math.cos(angle);
+    let y = room.roomHeight / 2 + (room.circleRadius / 2) * Math.sin(angle);
     return { x, y };
   }
 
-  randomVec(length) {
-    let angle = Math.random() * 2 * Math.PI;
-    return {
-      x: length * Math.cos(angle),
-      y: length * Math.sin(angle),
-    };
-  }
-
-  dist(pos1, pos2) {
-    return Math.sqrt(
-      Math.pow(pos1.x - pos2.x, 2) + Math.pow(pos1.y - pos2.y, 2)
-    );
-  }
-
-  scale(vec, m) {
-    return { x: vec.x * m, y: vec.y * m };
+  collidesWith(room) {
+    if (
+      this.position[0] - this.radius <= 0 ||
+      this.position[0] + this.radius >= room.roomWidth
+    ) {
+      return true;
+    }
+    if (
+      this.position[1] - this.radius <= 0 ||
+      this.position[1] + this.radius >= room.roomHeight
+    ) {
+      return true;
+    }
+    return false;
   }
 }
 export default Baby;
