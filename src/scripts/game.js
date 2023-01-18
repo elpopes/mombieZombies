@@ -5,7 +5,6 @@ import Util from "./util";
 
 class Game {
   constructor(room, canvas) {
-    this.balls = [];
     this.mombies = [];
     this.babies = [];
     this.ctx = canvas.getContext("2d");
@@ -13,7 +12,8 @@ class Game {
     // this.player = player;
     this.room = room;
     this.level = 1;
-    this.createBall();
+
+    this.ball = this.createBall();
     this.createBabies(this.zMultiplier(this.level));
     this.createMombies(this.zMultiplier(this.level));
   }
@@ -24,7 +24,7 @@ class Game {
   }
 
   createBall() {
-    this.balls.push(new Ball(this.room, this.canvas));
+    return new Ball(this.room, this.canvas);
   }
 
   createBabies(num) {
@@ -36,7 +36,7 @@ class Game {
   createMombies(num) {
     for (let i = 0; i < num; i++) {
       this.mombies.push(
-        new Mombie(this.babies[i], this.room, this.canvas, this.balls[0])
+        new Mombie(this.babies[i], this.room, this.canvas, this.ball)
       );
     }
   }
@@ -46,9 +46,8 @@ class Game {
     this.ctx.clearRect(0, 0, this.room.roomWidth, this.room.roomHeight);
 
     // Update positions of ball, mombies, babies, and player
-    for (let i = 0; i < this.balls.length; i++) {
-      this.balls[i].update(deltaTime);
-    }
+    this.ball.update(deltaTime);
+
     for (let i = 0; i < this.mombies.length; i++) {
       this.mombies[i].update();
     }
@@ -57,15 +56,15 @@ class Game {
     }
 
     // Check ball collision with all mombies
-    // this.ballStrike();
+    this.ballStrike();
     // Check if all mombies have been knocked out the window
     // this.checkLevel();
     // Draw the room
     this.room.draw(this.ctx);
     // Draw the ball, mombies and babies
-    for (let i = 0; i < this.balls.length; i++) {
-      this.balls[i].draw(this.ctx);
-    }
+
+    this.ball.draw(this.ctx);
+
     for (let i = 0; i < this.mombies.length; i++) {
       this.mombies[i].draw(this.ctx);
     }
@@ -75,17 +74,14 @@ class Game {
     // this.player.draw(this.ctx);
   }
 
-  //   ballStrike() {
-  //     //   Check for collisions between ball and mombies
-  //     for (let i = 0; i < this.balls.length; i++) {
-  //       for (let j = 0; j < this.mombies.length; j++) {
-  //         if (this.balls[i].collidesWith(this.mombies[j])) {
-  //           this.balls[i].handleImpact(this.mombies[j]);
-  //           this.mombies[j].handleImpact(this.balls[i]);
-  //         }
-  //       }
-  //     }
-  //   }
+  ballStrike() {
+    //   Check for collisions between ball and mombies
+
+    for (let i = 0; i < this.mombies.length; i++) {
+      this.ball.bounceOff(this.mombies[i]);
+    }
+  }
+
   // Check for collisions between player and mombies
   // for (let i = 0; i < this.mombies.length; i++) {
   //   if (this.player.collidesWith(this.mombies[i])) {

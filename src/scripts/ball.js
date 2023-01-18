@@ -111,7 +111,16 @@ class Ball {
     }
   }
 
-  smosh(mombie) {}
+  bounceOff(mombie) {
+    const dx = this.position[0] - mombie.position.x;
+    const dy = this.position[1] - mombie.position.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance <= this.radius + mombie.radius) {
+      mombie.hitBy(this);
+      this.velocity[0] = -this.velocity[0];
+      this.velocity[1] = -this.velocity[1];
+    }
+  }
 
   update(deltaTime) {
     // Update the position of the ball based on its velocity and the delta time

@@ -47,14 +47,15 @@ class Mombie {
       dy /= distance;
 
       // Update mombie's velocity to move towards the baby
-      this.velocity = { x: dx, y: dy };
-
+      if (!this.hit) {
+        this.velocity = { x: dx, y: dy };
+      }
       if (distance < 5) {
         this.pickUpBaby(this.baby);
       }
 
       if (this.hit) {
-        this.friction = 0.99;
+        this.friction = 0.8;
         this.velocity.x *= this.friction;
         this.velocity.y *= this.friction;
         if (
@@ -86,6 +87,7 @@ class Mombie {
 
     // check if the distance is less than the sum of the two radii
     if (distance < this.radius + ball.radius) {
+      //   debugger;
       // collision flag
       this.hit = true;
       // drop baby...
