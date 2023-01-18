@@ -14,8 +14,13 @@ class Game {
     this.room = room;
     this.level = 1;
     this.createBall();
-    this.createMombies(1);
-    this.createBabies(1);
+    this.createBabies(this.zMultiplier(this.level));
+    this.createMombies(this.zMultiplier(this.level));
+  }
+
+  zMultiplier(n) {
+    if (n === 1) return 1;
+    return 2 * returnValue(n - 1);
   }
 
   createBall() {
@@ -31,7 +36,7 @@ class Game {
   createMombies(num) {
     for (let i = 0; i < num; i++) {
       this.mombies.push(
-        new Mombie(this.mombies.length, this.room, this.canvas, this.balls[0])
+        new Mombie(this.babies[i], this.room, this.canvas, this.balls[0])
       );
     }
   }
@@ -50,9 +55,9 @@ class Game {
     for (let i = 0; i < this.babies.length; i++) {
       this.babies[i].update();
     }
-    // this.player.update();
-    // Check for collisions
-    // this.checkCollision();
+
+    // Check ball collision with all mombies
+    // this.ballStrike();
     // Check if all mombies have been knocked out the window
     // this.checkLevel();
     // Draw the room
@@ -70,16 +75,17 @@ class Game {
     // this.player.draw(this.ctx);
   }
 
-  //   checkCollision() {
-  // Check for collisions between ball and mombies
-  // for (let i = 0; i < this.balls.length; i++) {
-  //   for (let j = 0; j < this.mombies.length; j++) {
-  //     if (this.balls[i].collidesWith(this.mombies[j])) {
-  //       this.balls[i].handleImpact(this.mombies[j]);
-  //       this.mombies[j].handleImpact(this.balls[i]);
+  //   ballStrike() {
+  //     //   Check for collisions between ball and mombies
+  //     for (let i = 0; i < this.balls.length; i++) {
+  //       for (let j = 0; j < this.mombies.length; j++) {
+  //         if (this.balls[i].collidesWith(this.mombies[j])) {
+  //           this.balls[i].handleImpact(this.mombies[j]);
+  //           this.mombies[j].handleImpact(this.balls[i]);
+  //         }
+  //       }
   //     }
   //   }
-  // }
   // Check for collisions between player and mombies
   // for (let i = 0; i < this.mombies.length; i++) {
   //   if (this.player.collidesWith(this.mombies[i])) {

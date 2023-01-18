@@ -4,7 +4,7 @@ class Ball {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     this.position = this.center(room);
-    this.radius = 15;
+    this.radius = 20;
     this.color = "red";
     this.velocity = [0, 0];
     this.pullDirection = [0, 0];
@@ -40,7 +40,7 @@ class Ball {
     if (!this.pulling) return;
     this.pulling = false;
     // Set the velocity to be the opposite of the pull direction
-    this.velocity = [-this.pullDirection[0] / 30, -this.pullDirection[1] / 30];
+    this.velocity = [-this.pullDirection[0] / 15, -this.pullDirection[1] / 15];
     this.pullDirection = [0, 0];
     // Save the time the projectile was fired
     this.firedTime = Date.now();
@@ -111,6 +111,8 @@ class Ball {
     }
   }
 
+  smosh(mombie) {}
+
   update(deltaTime) {
     // Update the position of the ball based on its velocity and the delta time
     this.position[0] += this.velocity[0] * deltaTime;
@@ -118,7 +120,7 @@ class Ball {
     // Check for collision with the walls and windows
     this.collidesWith(this.room, deltaTime);
 
-    // Slow down the projectile over time
+    // Slow ball down over time
     this.velocity[0] *= this.decay;
     this.velocity[1] *= this.decay;
 

@@ -4,7 +4,7 @@
 //   constructor(id, room, canvas, radius = 30) {
 //     super({ x: 0, y: 0 }, { x: 0, y: 0 }, radius);
 class Mombie {
-  constructor(id, room, canvas, ball, radius = 30) {
+  constructor(baby, room, canvas, ball, radius = 30) {
     const randomDoor = Math.random() < 0.5 ? room.leftDoor : room.rightDoor;
     this.position = {
       x: randomDoor.position.x,
@@ -14,12 +14,14 @@ class Mombie {
     this.ball = ball;
     this.hit = false;
     this.radius = radius;
-    this.id = id;
+
+    this.baby = baby;
+
     this.room = room;
     this.ctx = canvas.getContext("2d");
     // this.util = util;
     this.hasBaby = false;
-    console.log(this.ball.radius);
+    this.frame = 0;
   }
 
   draw(ctx) {
@@ -30,26 +32,48 @@ class Mombie {
   }
 
   update() {
-    // console.log(this.velocity.x);
-    if (this.hit) {
-      this.friction = 0.98;
-      this.velocity.x *= this.friction;
-      this.velocity.y *= this.friction;
-      if (Math.abs(this.velocity.x) < 0.1 && Math.abs(this.velocity.y) < 0.1) {
-        this.hit = false;
-        this.velocity = { x: this.dir, y: 0 };
-      }
-    } else {
-      this.velocity = { x: this.dir, y: 0 };
-      //   debugger;
-      console.log(this.velocity.x);
-    }
-    this.hitBy(this.ball);
-    this.collidesWith(this.room);
-    this.position.x += this.velocity.x;
-    this.position.y += this.velocity.y;
+    this.frame++;
 
-    this.draw(this.ctx);
+    if (this.hasBaby) {
+      this.findNearestDoor();
+    } else {
+      // Calculate distance between mombie and baby
+      let dx = this.baby.position.x - this.position.x;
+      let dy = this.baby.position.y - this.position.y;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+
+      // Normalize the distance to get a unit vector in the direction of the baby
+      dx /= distance;
+      dy /= distance;
+
+      // Update mombie's velocity to move towards the baby
+      this.velocity = { x: dx, y: dy };
+
+      if (distance < 5) {
+        this.pickUpBaby(this.baby);
+      }
+
+      if (this.hit) {
+        this.friction = 0.99;
+        this.velocity.x *= this.friction;
+        this.velocity.y *= this.friction;
+        if (
+          Math.abs(this.velocity.x) < 0.1 &&
+          Math.abs(this.velocity.y) < 0.1
+        ) {
+          this.hit = false;
+          this.velocity = { x: this.dir, y: 0 };
+        }
+      }
+
+      if (this.frame > 40) {
+        this.hitBy(this.ball);
+        this.collidesWith(this.room);
+      }
+
+      this.position.x += this.velocity.x;
+      this.position.y += this.velocity.y;
+    }
   }
 
   hitBy(ball) {
@@ -64,10 +88,12 @@ class Mombie {
     if (distance < this.radius + ball.radius) {
       // collision flag
       this.hit = true;
+      // drop baby...
+      this.hasBaby = false;
       // calculate the new velocity of the Mombie based on the ball's velocity
       let newVelocity = {
-        x: this.ball.velocity[0] * 0.9 * -1,
-        y: this.ball.velocity[1] * 0.9 * -1,
+        x: this.ball.velocity[0] * 0.9 * -10,
+        y: this.ball.velocity[1] * 0.9 * -10,
       };
       // apply the new velocity to the Mombie
 
@@ -77,13 +103,17 @@ class Mombie {
   }
 
   collidesWith(room) {
+    // Check for collision with doors, allowing to pass if door is open
+    // Door lets mombie in but doesn't let them out unless they have baby
+
     // Check for collision with the windows
     // Top left
+
     if (
-      this.position[0] >= this.room.topLeftWindow.position.x &&
-      this.position[0] <=
+      this.position.x >= this.room.topLeftWindow.position.x &&
+      this.position.x <=
         this.room.topLeftWindow.position.x + room.topLeftWindow.width &&
-      this.position[1] - this.radius <=
+      this.position.y - this.radius <=
         this.room.topLeftWindow.position.y + this.room.topLeftWindow.height
     ) {
       this.position = this.center(this.room);
@@ -91,10 +121,10 @@ class Mombie {
     }
     // Top right
     if (
-      this.position[0] >= this.room.topRightWindow.position.x &&
-      this.position[0] <=
+      this.position.x >= this.room.topRightWindow.position.x &&
+      this.position.x <=
         this.room.topRightWindow.position.x + this.room.topRightWindow.width &&
-      this.position[1] - this.radius <=
+      this.position.y - this.radius <=
         this.room.topRightWindow.position.y + this.room.topLeftWindow.height
     ) {
       this.position = this.center(this.room);
@@ -102,11 +132,11 @@ class Mombie {
     }
     // Bottom left
     if (
-      this.position[0] >= this.room.bottomLeftWindow.position.x &&
-      this.position[0] <=
+      this.position.x >= this.room.bottomLeftWindow.position.x &&
+      this.position.x <=
         this.room.bottomLeftWindow.position.x +
           this.room.bottomLeftWindow.width &&
-      this.position[1] + this.radius >=
+      this.position.y + this.radius >=
         this.room.bottomLeftWindow.position.y -
           this.room.bottomLeftWindow.height
     ) {
@@ -115,11 +145,11 @@ class Mombie {
     }
     // Bottom right
     if (
-      this.position[0] >= this.room.bottomRightWindow.position.x &&
-      this.position[0] <=
+      this.position.x >= this.room.bottomRightWindow.position.x &&
+      this.position.x <=
         this.room.bottomRightWindow.position.x +
           this.room.bottomRightWindow.width &&
-      this.position[1] >=
+      this.position.y >=
         this.room.bottomRightWindow.position.y -
           this.room.bottomLeftWindow.height
     ) {
@@ -128,17 +158,18 @@ class Mombie {
     }
 
     // Check for collision with the walls
+
     if (
-      this.position[0] - this.radius <= 0 ||
-      this.position[0] + this.radius >= room.roomWidth
+      this.position.x - this.radius <= 0 ||
+      this.position.x + this.radius >= room.roomWidth
     ) {
-      this.velocity[0] *= -1;
+      this.velocity.x *= -1;
     }
     if (
-      this.position[1] - this.radius <= 0 ||
-      this.position[1] + this.radius >= room.roomHeight
+      this.position.y - this.radius <= 0 ||
+      this.position.y + this.radius >= room.roomHeight
     ) {
-      this.velocity[1] *= -1;
+      this.velocity.y *= -1;
     }
   }
 
@@ -146,7 +177,43 @@ class Mombie {
     this.hasBaby = true;
     baby.position = { x: this.position.x, y: this.position.y };
     baby.velocity = { x: this.velocity.x, y: this.velocity.y };
-    baby.isHeld = true;
+    // baby.isHeld = true;
+  }
+
+  findNearestDoor() {
+    // Find the distance to the left door
+    let leftDoorDistance = Math.sqrt(
+      Math.pow(this.position.x - this.room.leftDoor.position.x, 2) +
+        Math.pow(this.position.y - this.room.leftDoor.position.y, 2)
+    );
+
+    // Find the distance to the right door
+    let rightDoorDistance = Math.sqrt(
+      Math.pow(this.position.x - this.room.rightDoor.position.x, 2) +
+        Math.pow(this.position.y - this.room.rightDoor.position.y, 2)
+    );
+
+    // Compare the distances and set the nearest door
+    let nearestDoor =
+      leftDoorDistance < rightDoorDistance
+        ? this.room.leftDoor
+        : this.room.rightDoor;
+
+    // Calculate distance between mombie and door
+    let dx = nearestDoor.position.x - this.position.x;
+    let dy = this.room.roomHeight / 2 - this.position.y;
+    let distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Normalize the distance to get a unit vector in the direction of the door
+    dx /= distance;
+    dy /= distance;
+
+    // Update mombie's velocity to move towards the door
+    this.velocity = { x: dx, y: dy };
+
+    // update position
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
   }
 }
 
