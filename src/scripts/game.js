@@ -13,7 +13,7 @@ class Game {
     // this.player = player;
     this.room = room;
     this.level = window.level;
-    // this.gameOver = false;
+    this.gameOver = false;
     this.ball = this.createBall();
     this.createBabies(this.zMultiplier(this.level));
     this.createMombies(this.zMultiplier(this.level));
@@ -21,14 +21,6 @@ class Game {
 
   levelUp() {
     window.level += 1;
-    let nextCanvas = document.getElementById("canvas");
-    let nextCtx = nextCanvas.getContext("2d");
-    new GameView(nextCanvas, nextCtx).start();
-  }
-
-  gameOver() {
-    alert("Game Over! Reload to try again.");
-    window.level = 1;
     let nextCanvas = document.getElementById("canvas");
     let nextCtx = nextCanvas.getContext("2d");
     new GameView(nextCanvas, nextCtx).start();

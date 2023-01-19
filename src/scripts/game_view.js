@@ -30,32 +30,42 @@ class GameView {
     this.room.draw(this.ctx);
   }
 
+  levelDisplay(ctx) {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.fillStyle = "purple";
+    ctx.font = "128px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(
+      `Level ${window.level}`,
+      ctx.canvas.width / 2,
+      ctx.canvas.height / 2
+    );
+    return new Promise((resolve) => setTimeout(resolve, 3000));
+  }
   start() {
-    this.game = new Game(this.room, this.canvas);
-    this.room.draw(this.ctx);
-
-    let lastFrameTime = Date.now();
-
-    this.loop = () => {
-      if (this.game.mombies.length < 1) {
-        this.game.levelUp();
-      } else {
-        // debugger;
-        let currentTime = Date.now();
-        let deltaTime = currentTime - lastFrameTime;
-        lastFrameTime = currentTime;
-
-        this.game.update(deltaTime);
-        requestAnimationFrame(this.loop);
-      }
-    };
-
-    this.loop();
+    this.levelDisplay(this.ctx).then(() => {
+      this.game = new Game(this.room, this.canvas);
+      this.room.draw(this.ctx);
+      let lastFrameTime = Date.now();
+      this.loop = () => {
+        if (this.game.gameOver === true) {
+          alert("Game over! Click OK to play again.");
+          location.reload();
+          return;
+        }
+        if (this.game.mombies.length < 1) {
+          this.game.levelUp();
+        } else {
+          let currentTime = Date.now();
+          let deltaTime = currentTime - lastFrameTime;
+          lastFrameTime = currentTime;
+          this.game.update(deltaTime);
+          requestAnimationFrame(this.loop);
+        }
+      };
+      this.loop();
+    });
   }
 }
-export default GameView;
 
-// else if (this.game.gameOver === true) {
-//     debugger;
-//     this.game.gameOver();
-//   }
+export default GameView;

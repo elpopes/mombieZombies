@@ -261,9 +261,8 @@ class Mombie {
       Math.abs(this.position.x - nearestDoor.position.x) < 5 &&
       this.hasBaby
     ) {
-      //   debugger;
-      this.game.gameOver();
-      //   this.game.gameOver = true;
+      // end the game
+      this.game.gameOver = true;
     }
   }
 }
