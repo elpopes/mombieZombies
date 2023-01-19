@@ -50,7 +50,7 @@ class Room {
 
   // position each window using the room width to find the quadrants
   calculateWindowPosition(quadrant) {
-    const windowWidth = 75;
+    const windowWidth = 200;
     const windowHeight = 5;
     if (quadrant === "topLeft") {
       return { x: (this.roomWidth / 2 - windowWidth) / 2, y: 0 };
