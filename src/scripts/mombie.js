@@ -78,6 +78,8 @@ class Mombie {
   }
 
   hitBy(ball) {
+    // Use threshold to fix stuck mombies
+    const threshold = 1;
     // calculate the distance between the center of the Mombie and the center of the ball
     // console.log(ball);
     let distance = Math.sqrt(
@@ -91,7 +93,6 @@ class Mombie {
       // collision flag
       this.hit = true;
       // drop baby...
-      this.dropBaby(this.baby);
       // calculate the new velocity of the Mombie based on the ball's velocity
       let newVelocity = {
         x: this.ball.velocity[0] * -10,
@@ -99,9 +100,14 @@ class Mombie {
       };
       //   debugger;
       // apply the new velocity to the Mombie
-
-      this.velocity.x = newVelocity.x;
-      this.velocity.y = newVelocity.y;
+      if (
+        Math.abs(newVelocity.x) > threshold ||
+        Math.abs(newVelocity.y) > threshold
+      ) {
+        this.dropBaby(this.baby);
+        this.velocity.x = newVelocity.x;
+        this.velocity.y = newVelocity.y;
+      }
     }
   }
 
@@ -194,16 +200,18 @@ class Mombie {
 
     // Check for collision with the walls
 
-    if (
-      this.position.x - this.radius <= 0 ||
-      this.position.x + this.radius >= room.roomWidth
-    ) {
+    if (this.position.x - this.radius <= 0) {
+      this.position.x = this.radius;
+      this.velocity.x *= -1;
+    } else if (this.position.x + this.radius >= room.roomWidth) {
+      this.position.x = room.roomWidth - this.radius;
       this.velocity.x *= -1;
     }
-    if (
-      this.position.y - this.radius <= 0 ||
-      this.position.y + this.radius >= room.roomHeight
-    ) {
+    if (this.position.y - this.radius <= 0) {
+      this.position.y = this.radius;
+      this.velocity.y *= -1;
+    } else if (this.position.y + this.radius >= room.roomHeight) {
+      this.position.y = room.roomHeight - this.radius;
       this.velocity.y *= -1;
     }
   }
