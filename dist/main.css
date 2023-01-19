@@ -1,12 +1,42 @@
 /*!********************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js!./src/styles/index.scss ***!
   \********************************************************************************************************************************************/
-#root {
-  color: green;
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+}
+
+.nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  height: 100px;
+  width: 100%;
+  outline: 1px;
+  background-color: purple;
 }
 
 canvas {
-  width: 90%;
-  height: 90%;
-  margin: 5%;
+  position: absolute;
+  top: 90px;
+  width: 95%;
+  height: calc(100vh - 120px);
+  margin: 75px 5% 5%;
+}
+
+.middle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.directions p {
+  margin: 0;
+  padding: 0;
+}
+
+.directions li {
+  margin: 0;
+  font-size: x-small;
 }

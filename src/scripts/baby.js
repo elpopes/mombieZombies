@@ -1,3 +1,6 @@
+const babyImg = new Image(20, 20);
+babyImg.src = "../assets/images/sprites/baby.png";
+
 class Baby {
   constructor(room, ctx) {
     this.room = room;
@@ -58,12 +61,7 @@ class Baby {
   }
 
   draw(ctx) {
-    ctx.fillStyle = "blue";
-    ctx.beginPath();
-    ctx.moveTo(this.position.x, this.position.y);
-    ctx.lineTo(this.position.x - this.radius, this.position.y + this.radius);
-    ctx.lineTo(this.position.x + this.radius, this.position.y + this.radius);
-    ctx.fill();
+    ctx.drawImage(babyImg, this.position.x, this.position.y, 30, 30);
   }
 
   randomPosition(room) {

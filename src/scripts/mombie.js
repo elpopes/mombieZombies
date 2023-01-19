@@ -1,8 +1,6 @@
-// import Mover from "./mover";
+const mombieImg = new Image(30, 30);
+mombieImg.src = "../assets/images/sprites/mombie.png";
 
-// class Mombie extends Mover {
-//   constructor(id, room, canvas, radius = 30) {
-//     super({ x: 0, y: 0 }, { x: 0, y: 0 }, radius);
 class Mombie {
   constructor(game, baby, room, canvas, ball, radius = 30) {
     const randomDoor = Math.random() < 0.5 ? room.leftDoor : room.rightDoor;
@@ -19,17 +17,20 @@ class Mombie {
 
     this.room = room;
     this.ctx = canvas.getContext("2d");
-    // this.util = util;
     this.hasBaby = false;
     this.frame = 0;
   }
 
   draw(ctx) {
-    ctx.fillStyle = "purple";
-    ctx.beginPath();
-    ctx.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
-    this.ctx.fill();
+    ctx.drawImage(mombieImg, this.position.x, this.position.y, 60, 60);
   }
+
+  //   draw(ctx) {
+  //     ctx.fillStyle = "purple";
+  //     ctx.beginPath();
+  //     ctx.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
+  //     this.ctx.fill();
+  //   }
 
   update() {
     this.frame++;
@@ -91,12 +92,12 @@ class Mombie {
     if (distance < this.radius + ball.radius) {
       //   debugger;
       // collision flag
-      this.hit = true;
+      //   this.hit = true;
       // drop baby...
       // calculate the new velocity of the Mombie based on the ball's velocity
       let newVelocity = {
-        x: this.ball.velocity[0] * -10,
-        y: this.ball.velocity[1] * -10,
+        x: ball.velocity[0] * -80,
+        y: ball.velocity[1] * -80,
       };
       //   debugger;
       // apply the new velocity to the Mombie

@@ -4,17 +4,27 @@ class Ball {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     this.position = this.center(room);
-    this.radius = 20;
+    this.radius = 30;
     this.color = "red";
     this.velocity = [0, 0];
     this.pullDirection = [0, 0];
     this.decay = 0.97;
     this.firedTime = null;
+    this.pulling = false;
 
     // Event listeners for firing
     window.addEventListener("mousedown", (event) => this.startPulling(event));
-    window.addEventListener("mousemove", (event) => this.pull(event));
+    window.addEventListener("mousemove", (event) => this.mouseMove(event));
     window.addEventListener("mouseup", (event) => this.fire());
+  }
+
+  aim(event) {
+    if (!this.velocity[0] && !this.velocity[1]) {
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.position[0], this.position[1]);
+      this.ctx.lineTo(event.clientX, event.clientY);
+      this.ctx.stroke();
+    }
   }
 
   center(room) {
@@ -23,29 +33,50 @@ class Ball {
 
   startPulling(event) {
     this.pulling = true;
-    // Save the starting position of the pull
+
+    // Save starting position of pull
     this.pullStart = [event.clientX, event.clientY];
+    this.drawShot();
   }
 
   pull(event) {
-    if (!this.pulling) return;
     // Calculate the pull direction by subtracting the starting position from the current mouse position
     this.pullDirection = [
       event.clientX - this.pullStart[0],
       event.clientY - this.pullStart[1],
     ];
+    this.drawShot();
+  }
+
+  mouseMove(event) {
+    if (this.pulling) {
+      this.pull(event);
+    } else {
+      this.aim(event);
+    }
+  }
+
+  drawShot() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.position[0], this.position[1]);
+    this.ctx.lineTo(
+      this.position[0] + this.pullDirection[0],
+      this.position[1] + this.pullDirection[1]
+    );
+    this.ctx.stroke();
   }
 
   fire() {
-    if (!this.pulling) return;
     this.pulling = false;
     // Add a speed variable
-    let speed = 100;
+    let speed = 50;
     // Set the velocity to be the opposite of the pull direction divided by speed
     this.velocity = [
       -this.pullDirection[0] / speed,
       -this.pullDirection[1] / speed,
     ];
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.pullDirection = [0, 0];
     // Save the time the projectile was fired
     this.firedTime = Date.now();
@@ -122,12 +153,18 @@ class Ball {
     const distance = Math.sqrt(dx * dx + dy * dy);
     if (distance <= this.radius + mombie.radius) {
       mombie.hitBy(this);
-      this.velocity[0] = -this.velocity[0];
-      this.velocity[1] = -this.velocity[1];
+
+      const force = (this.radius + mombie.radius - distance) / 10;
+
+      this.velocity[0] += force;
+      this.velocity[1] += force;
     }
   }
 
   update(deltaTime) {
+    // create vector with hover event, and  startPulling and pass into draw line. and use ball position for the start
+
+    this.drawShot();
     // Update the position of the ball based on its velocity and the delta time
     this.position[0] += this.velocity[0] * deltaTime;
     this.position[1] += this.velocity[1] * deltaTime;
@@ -146,13 +183,17 @@ class Ball {
       this.position = this.center(this.room);
       this.velocity = [0, 0];
     }
+  }
 
-    // Clear the projectile after 4 seconds
-    // if (this.firedTime && Date.now() - this.firedTime > 4000) {
-    //   this.position = this.center(this.room);
-    //   this.firedTime = null;
-    // }
-    // this.draw(this.ctx);
+  drawShot() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.position[0], this.position[1]);
+    this.ctx.lineTo(
+      this.position[0] + this.pullDirection[0],
+      this.position[1] + this.pullDirection[1]
+    );
+    this.ctx.stroke();
   }
 
   draw() {
@@ -167,20 +208,6 @@ class Ball {
       2 * Math.PI
     );
     this.ctx.fill();
-
-    // // Update the position based on the velocity
-    // this.position[0] += this.velocity[0];
-    // this.position[1] += this.velocity[1];
-
-    // // Slow down the projectile over time
-    // this.velocity[0] *= this.decay;
-    // this.velocity[1] *= this.decay;
-
-    // Clear the projectile after 4 seconds
-    // if (this.firedTime && Date.now() - this.firedTime > 4000) {
-    //   this.position = [-100, -100];
-    //   this.firedTime = null;
-    // }
   }
 }
 
