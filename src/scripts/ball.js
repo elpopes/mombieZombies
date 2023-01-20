@@ -49,12 +49,16 @@ class Ball {
   }
 
   mouseMove(event) {
-    if (this.pulling) {
-      this.pull(event);
-    } else {
-      this.aim(event);
-    }
+    this.pull(event);
   }
+
+  //   mouseMove(event) {
+  //     if (this.pulling) {
+  //       this.pull(event);
+  //     } else {
+  //       this.aim(event);
+  //     }
+  //   }
 
   //   drawShot() {
   //     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -185,16 +189,16 @@ class Ball {
     }
   }
 
-//   drawShot() {
-//     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-//     this.ctx.beginPath();
-//     this.ctx.moveTo(this.position[0], this.position[1]);
-//     this.ctx.lineTo(
-//       this.position[0] + this.pullDirection[0],
-//       this.position[1] + this.pullDirection[1]
-//     );
-//     this.ctx.stroke();
-//   }
+  //   drawShot() {
+  //     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  //     this.ctx.beginPath();
+  //     this.ctx.moveTo(this.position[0], this.position[1]);
+  //     this.ctx.lineTo(
+  //       this.position[0] + this.pullDirection[0],
+  //       this.position[1] + this.pullDirection[1]
+  //     );
+  //     this.ctx.stroke();
+  //   }
 
   draw() {
     // Draw the projectile at its current position
