@@ -20,7 +20,7 @@ class Baby {
     }
 
     // this.collidesWith(this.room);
-    this.draw(this.ctx);
+    // this.draw(this.ctx);
   }
 
   center(room) {
@@ -51,7 +51,7 @@ class Baby {
     this.attachedToMombie = false;
     // this.getAwayFrom(this.mombie);
     this.position = this.randomPosition(this.room);
-    this.draw(this.ctx);
+    // this.draw(this.ctx);
   }
 
   getAwayFrom(mombie) {

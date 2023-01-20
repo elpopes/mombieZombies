@@ -18,14 +18,14 @@ class Ball {
     window.addEventListener("mouseup", (event) => this.fire());
   }
 
-  aim(event) {
-    if (!this.velocity[0] && !this.velocity[1]) {
-      this.ctx.beginPath();
-      this.ctx.moveTo(this.position[0], this.position[1]);
-      this.ctx.lineTo(event.clientX, event.clientY);
-      this.ctx.stroke();
-    }
-  }
+  //   aim(event) {
+  //     if (!this.velocity[0] && !this.velocity[1]) {
+  //       this.ctx.beginPath();
+  //       this.ctx.moveTo(this.position[0], this.position[1]);
+  //       this.ctx.lineTo(event.clientX, event.clientY);
+  //       this.ctx.stroke();
+  //     }
+  //   }
 
   center(room) {
     return [room.roomWidth / 2, room.roomHeight / 2];
@@ -36,7 +36,7 @@ class Ball {
 
     // Save starting position of pull
     this.pullStart = [event.clientX, event.clientY];
-    this.drawShot();
+    // this.drawShot();
   }
 
   pull(event) {
@@ -45,7 +45,7 @@ class Ball {
       event.clientX - this.pullStart[0],
       event.clientY - this.pullStart[1],
     ];
-    this.drawShot();
+    // this.drawShot();
   }
 
   mouseMove(event) {
@@ -56,16 +56,16 @@ class Ball {
     }
   }
 
-  drawShot() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.position[0], this.position[1]);
-    this.ctx.lineTo(
-      this.position[0] + this.pullDirection[0],
-      this.position[1] + this.pullDirection[1]
-    );
-    this.ctx.stroke();
-  }
+  //   drawShot() {
+  //     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  //     this.ctx.beginPath();
+  //     this.ctx.moveTo(this.position[0], this.posi tion[1]);
+  //     this.ctx.lineTo(
+  //       this.position[0] + this.pullDirection[0],
+  //       this.position[1] + this.pullDirection[1]
+  //     );
+  //     this.ctx.stroke();
+  //   }
 
   fire() {
     this.pulling = false;
@@ -164,7 +164,7 @@ class Ball {
   update(deltaTime) {
     // create vector with hover event, and  startPulling and pass into draw line. and use ball position for the start
 
-    this.drawShot();
+    // this.drawShot();
     // Update the position of the ball based on its velocity and the delta time
     this.position[0] += this.velocity[0] * deltaTime;
     this.position[1] += this.velocity[1] * deltaTime;
@@ -185,16 +185,16 @@ class Ball {
     }
   }
 
-  drawShot() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.position[0], this.position[1]);
-    this.ctx.lineTo(
-      this.position[0] + this.pullDirection[0],
-      this.position[1] + this.pullDirection[1]
-    );
-    this.ctx.stroke();
-  }
+//   drawShot() {
+//     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+//     this.ctx.beginPath();
+//     this.ctx.moveTo(this.position[0], this.position[1]);
+//     this.ctx.lineTo(
+//       this.position[0] + this.pullDirection[0],
+//       this.position[1] + this.pullDirection[1]
+//     );
+//     this.ctx.stroke();
+//   }
 
   draw() {
     // Draw the projectile at its current position

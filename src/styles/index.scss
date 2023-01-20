@@ -1,7 +1,6 @@
 body {
-// position: relative;
-font-family: Arial, Helvetica, sans-serif;
-color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
 }
 
 .nav {
@@ -13,30 +12,73 @@ color: white;
     width: 100%;
     outline: 1px;
     background-color: purple;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 canvas {
     position: absolute;
-    top: 90px;
+    top: 110px;
     width: 95%;
     height: calc(100vh - 120px);
     margin: 75px 5% 5%;
 }
 
-.middle {
+.left {
+    width: 20%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.directions p {
-    margin: 0;
-    padding: 0;
-
+.logo {
+    width: 50%;
+    height: 50%;
+    background-color: white;
 }
 
-.directions li {
+.middle {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.about-me {
+    position: relative;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-me p {
     margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.about-me-dropdown {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    background-color: white;
+    display: none;
+}
+
+.about-me:hover .about-me-dropdown {
+    display: block;
+}
+
+.directions {
+    height: 50%;
+    width: 70%;
     font-size: x-small;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
