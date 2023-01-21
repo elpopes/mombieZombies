@@ -20,7 +20,7 @@ class Mombie {
     this.hasBaby = false;
     this.frame = 0;
     this.mombieImg = new Image(30, 30);
-    this.mombieImg.src = "../assets/images/sprites/mombie.png";
+    this.mombieImg.src = "./../assets/images/sprites/mombie.png";
   }
 
   draw(ctx) {

@@ -8,7 +8,7 @@ class Baby {
     this.attachedToMombie = false;
     this.mombie = null;
     this.babyImg = new Image(20, 20);
-    this.babyImg.src = "../assets/images/sprites/baby.png";
+    this.babyImg.src = "./../assets/images/sprites/baby.png";
   }
 
   draw(ctx) {
