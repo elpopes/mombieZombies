@@ -24,7 +24,7 @@ class Mombie {
   }
 
   draw(ctx) {
-    if (this.mombieImg.complete) {
+    if (this.mombieImg.naturalWidth > 0) {
       ctx.drawImage(this.mombieImg, this.position.x, this.position.y, 60, 60);
     } else {
       this.mombieImg.onload = function () {

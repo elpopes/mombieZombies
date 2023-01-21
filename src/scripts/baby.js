@@ -12,7 +12,7 @@ class Baby {
   }
 
   draw(ctx) {
-    if (this.babyImg.complete) {
+    if (this.babyImg.naturalWidth > 0) {
       ctx.drawImage(this.babyImg, this.position.x, this.position.y, 30, 30);
     } else {
       this.babyImg.onload = function () {
