@@ -1,6 +1,3 @@
-const babyImg = new Image(20, 20);
-babyImg.src = "../assets/images/sprites/baby.png";
-
 class Baby {
   constructor(room, ctx) {
     this.room = room;
@@ -10,6 +7,18 @@ class Baby {
     this.radius = 20;
     this.attachedToMombie = false;
     this.mombie = null;
+    this.babyImg = new Image(20, 20);
+    this.babyImg.src = "../assets/images/sprites/baby.png";
+  }
+
+  draw(ctx) {
+    if (this.babyImg.complete) {
+      ctx.drawImage(this.babyImg, this.position.x, this.position.y, 30, 30);
+    } else {
+      this.babyImg.onload = function () {
+        ctx.drawImage(this.babyImg, this.position.x, this.position.y, 30, 30);
+      }.bind(this);
+    }
   }
 
   update() {
@@ -58,10 +67,6 @@ class Baby {
     this.position.x = this.mombie.position.x - mombie.radius * 2;
     this.position.y = this.mombie.position.y - mombie.radius * 2;
     this.update();
-  }
-
-  draw(ctx) {
-    ctx.drawImage(babyImg, this.position.x, this.position.y, 30, 30);
   }
 
   randomPosition(room) {

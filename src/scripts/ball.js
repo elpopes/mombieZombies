@@ -49,16 +49,10 @@ class Ball {
   }
 
   mouseMove(event) {
-    this.pull(event);
+    if (this.pulling) {
+      this.pull(event);
+    }
   }
-
-  //   mouseMove(event) {
-  //     if (this.pulling) {
-  //       this.pull(event);
-  //     } else {
-  //       this.aim(event);
-  //     }
-  //   }
 
   //   drawShot() {
   //     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

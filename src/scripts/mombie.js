@@ -1,5 +1,5 @@
-const mombieImg = new Image(30, 30);
-mombieImg.src = "../assets/images/sprites/mombie.png";
+// const mombieImg = new Image(30, 30);
+// mombieImg.src = "../assets/images/sprites/mombie.png";
 
 class Mombie {
   constructor(game, baby, room, canvas, ball, radius = 30) {
@@ -19,11 +19,23 @@ class Mombie {
     this.ctx = canvas.getContext("2d");
     this.hasBaby = false;
     this.frame = 0;
+    this.mombieImg = new Image(30, 30);
+    this.mombieImg.src = "../assets/images/sprites/mombie.png";
   }
 
   draw(ctx) {
-    ctx.drawImage(mombieImg, this.position.x, this.position.y, 60, 60);
+    if (this.mombieImg.complete) {
+      ctx.drawImage(this.mombieImg, this.position.x, this.position.y, 60, 60);
+    } else {
+      this.mombieImg.onload = function () {
+        ctx.drawImage(this.mombieImg, this.position.x, this.position.y, 60, 60);
+      }.bind(this);
+    }
   }
+
+  //   draw(ctx) {
+  //     ctx.drawImage(mombieImg, this.position.x, this.position.y, 60, 60);
+  //   }
 
   //   draw(ctx) {
   //     ctx.fillStyle = "purple";
