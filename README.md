@@ -1,4 +1,4 @@
-# mombiezombies
+# [mombieZombies](https://elpopes.github.io/mombieZombies/)
 
 A browser-based zombie shoving game utilizing canvas to fight off the zombie apocalypse one mom at a time.
 
