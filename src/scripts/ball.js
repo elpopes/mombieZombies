@@ -138,8 +138,74 @@ class Ball {
     }
   }
 
+  collidesWithWindow(room, point) {
+    // Check for collision with the windows
+    // Top left
+    if (
+      point.x >= this.room.topLeftWindow.position.x &&
+      point.x <=
+        this.room.topLeftWindow.position.x + room.topLeftWindow.width &&
+      point.y - this.radius <=
+        this.room.topLeftWindow.position.y + this.room.topLeftWindow.height
+    ) {
+      return true;
+    }
+    // Top right
+    if (
+      point.x >= this.room.topRightWindow.position.x &&
+      point.x <=
+        this.room.topRightWindow.position.x + this.room.topRightWindow.width &&
+      point.y - this.radius <=
+        this.room.topRightWindow.position.y + this.room.topLeftWindow.height
+    ) {
+      return true;
+    }
+    // Bottom left
+    if (
+      point.x >= this.room.bottomLeftWindow.position.x &&
+      point.x <=
+        this.room.bottomLeftWindow.position.x +
+          this.room.bottomLeftWindow.width &&
+      point.y + this.radius >=
+        this.room.bottomLeftWindow.position.y -
+          this.room.bottomLeftWindow.height
+    ) {
+      return true;
+    }
+    // Bottom right
+    if (
+      point.x >= this.room.bottomRightWindow.position.x &&
+      point.x <=
+        this.room.bottomRightWindow.position.x +
+          this.room.bottomRightWindow.width &&
+      point.y >=
+        this.room.bottomRightWindow.position.y -
+          this.room.bottomLeftWindow.height
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  calculateBounce(laserEnd) {
+    const bounce = { x: laserEnd.x, y: laserEnd.y };
+    const hitWallX = laserEnd.x <= 0 || laserEnd.x >= this.room.roomWidth;
+    const hitWallY = laserEnd.y <= 0 || laserEnd.y >= this.room.roomHeight;
+    const notWindow = !this.collidesWithWindow(this.room, laserEnd);
+
+    if (hitWallX && notWindow) {
+      bounce.x = hitWallX ? this.room.roomWidth - laserEnd.x : laserEnd.x;
+    }
+
+    if (hitWallY && notWindow) {
+      bounce.y = hitWallY ? this.room.roomHeight - laserEnd.y : laserEnd.y;
+    }
+
+    return bounce;
+  }
+
   drawLaser() {
-    if (!this.isMoving()) {
+    if (this.pulling) {
       const pullDistance = this.getPullDistance();
       const laserLength = 20 + pullDistance * 1; // Adjust the multiplier to control the laser length growth rate
 
