@@ -5,6 +5,7 @@ import GameView from "./game_view";
 import Util from "./util";
 
 class Game {
+  debugger;
   constructor(room, canvas) {
     this.mombies = [];
     this.babies = [];
@@ -43,7 +44,6 @@ class Game {
 
   createMombies(num) {
     for (let i = 0; i < num; i++) {
-      //   debugger;
       this.mombies.push(
         new Mombie(this, this.babies[i], this.room, this.canvas, this.ball)
       );
@@ -80,6 +80,7 @@ class Game {
     this.room.draw(this.ctx);
 
     // Draw the ball, mombies and babies
+
     this.ball.draw(this.ctx);
 
     for (let i = 0; i < this.mombies.length; i++) {

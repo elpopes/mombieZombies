@@ -49,7 +49,7 @@ class GameView {
       let lastFrameTime = Date.now();
       this.loop = () => {
         if (this.game.gameOver === true) {
-          alert("Game over! Click OK to play again.");
+          alert("Game over! Click m'OK to play again.");
           location.reload();
           return;
         }

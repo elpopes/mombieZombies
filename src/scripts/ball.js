@@ -18,15 +18,6 @@ class Ball {
     window.addEventListener("mouseup", (event) => this.fire());
   }
 
-  //   aim(event) {
-  //     if (!this.velocity[0] && !this.velocity[1]) {
-  //       this.ctx.beginPath();
-  //       this.ctx.moveTo(this.position[0], this.position[1]);
-  //       this.ctx.lineTo(event.clientX, event.clientY);
-  //       this.ctx.stroke();
-  //     }
-  //   }
-
   center(room) {
     return [room.roomWidth / 2, room.roomHeight / 2];
   }
@@ -45,7 +36,6 @@ class Ball {
       event.clientX - this.pullStart[0],
       event.clientY - this.pullStart[1],
     ];
-    // this.drawShot();
   }
 
   mouseMove(event) {
@@ -54,20 +44,9 @@ class Ball {
     }
   }
 
-  //   drawShot() {
-  //     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  //     this.ctx.beginPath();
-  //     this.ctx.moveTo(this.position[0], this.posi tion[1]);
-  //     this.ctx.lineTo(
-  //       this.position[0] + this.pullDirection[0],
-  //       this.position[1] + this.pullDirection[1]
-  //     );
-  //     this.ctx.stroke();
-  //   }
-
   fire() {
     this.pulling = false;
-    // Add a speed variable
+    // speed variable
     let speed = 50;
     // Set the velocity to be the opposite of the pull direction divided by speed
     this.velocity = [
@@ -159,10 +138,38 @@ class Ball {
     }
   }
 
+  drawLaser() {
+    if (!this.isMoving()) {
+      const pullDistance = this.getPullDistance();
+      const laserLength = 20 + pullDistance * 1; // Adjust the multiplier to control the laser length growth rate
+
+      const angle = Math.atan2(-this.pullDirection[1], -this.pullDirection[0]);
+      const endX = this.position[0] + laserLength * Math.cos(angle);
+      const endY = this.position[1] + laserLength * Math.sin(angle);
+
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.position[0], this.position[1]);
+      this.ctx.lineTo(endX, endY);
+      this.ctx.strokeStyle = "red";
+      this.ctx.lineWidth = 1;
+      this.ctx.stroke();
+      this.ctx.closePath();
+    }
+  }
+
+  getPullDistance() {
+    return Math.sqrt(
+      Math.pow(this.pullDirection[0], 2) + Math.pow(this.pullDirection[1], 2)
+    );
+  }
+
+  isMoving() {
+    return !(this.velocity[0] === 0 && this.velocity[1] === 0);
+  }
+
   update(deltaTime) {
     // create vector with hover event, and  startPulling and pass into draw line. and use ball position for the start
 
-    // this.drawShot();
     // Update the position of the ball based on its velocity and the delta time
     this.position[0] += this.velocity[0] * deltaTime;
     this.position[1] += this.velocity[1] * deltaTime;
@@ -181,20 +188,11 @@ class Ball {
       this.position = this.center(this.room);
       this.velocity = [0, 0];
     }
+    this.draw();
   }
 
-  //   drawShot() {
-  //     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  //     this.ctx.beginPath();
-  //     this.ctx.moveTo(this.position[0], this.position[1]);
-  //     this.ctx.lineTo(
-  //       this.position[0] + this.pullDirection[0],
-  //       this.position[1] + this.pullDirection[1]
-  //     );
-  //     this.ctx.stroke();
-  //   }
-
   draw() {
+    this.drawLaser();
     // Draw the projectile at its current position
     this.ctx.fillStyle = this.color;
     this.ctx.beginPath();
