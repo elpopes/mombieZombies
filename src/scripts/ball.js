@@ -207,14 +207,18 @@ class Ball {
   drawLaser() {
     if (this.pulling) {
       const pullDistance = this.getPullDistance();
-      const laserLength = 20 + pullDistance * 1; // Adjust the multiplier to control the laser length growth rate
+      const laserLength = 20 + pullDistance * 1;
 
       const angle = Math.atan2(-this.pullDirection[1], -this.pullDirection[0]);
-      const endX = this.position[0] + laserLength * Math.cos(angle);
-      const endY = this.position[1] + laserLength * Math.sin(angle);
+      let currentX = this.position[0];
+      let currentY = this.position[1];
 
       this.ctx.beginPath();
-      this.ctx.moveTo(this.position[0], this.position[1]);
+      this.ctx.moveTo(currentX, currentY);
+
+      const endX = currentX + laserLength * Math.cos(angle);
+      const endY = currentY + laserLength * Math.sin(angle);
+
       this.ctx.lineTo(endX, endY);
       this.ctx.strokeStyle = "red";
       this.ctx.lineWidth = 1;

@@ -25,10 +25,22 @@ class Mombie {
 
   draw(ctx) {
     if (this.mombieImg.naturalWidth > 0) {
-      ctx.drawImage(this.mombieImg, this.position.x, this.position.y, 60, 60);
+      ctx.drawImage(
+        this.mombieImg,
+        this.position.x - 30,
+        this.position.y - 30,
+        60,
+        60
+      );
     } else {
       this.mombieImg.onload = function () {
-        ctx.drawImage(this.mombieImg, this.position.x, this.position.y, 60, 60);
+        ctx.drawImage(
+          this.mombieImg,
+          this.position.x - 30,
+          this.position.y - 30,
+          60,
+          60
+        );
       }.bind(this);
     }
   }
