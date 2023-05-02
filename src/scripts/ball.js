@@ -17,9 +17,11 @@ class Ball {
     window.addEventListener("mousemove", (event) => this.mouseMove(event));
     window.addEventListener("mouseup", (event) => this.fire());
 
-    window.addEventListener("touchstart", (event) =>
-      this.startPulling(event.touches[0])
-    );
+    // Touch event listeners
+    window.addEventListener("touchstart", (event) => {
+      event.preventDefault(); // Prevents default touch behavior (e.g., refresh)
+      this.startPulling(event.touches[0]);
+    });
     window.addEventListener("touchmove", (event) => {
       event.preventDefault(); // Prevents scrolling on touch devices
       this.mouseMove(event.touches[0]);
