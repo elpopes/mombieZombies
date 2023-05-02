@@ -2,7 +2,7 @@ class Baby {
   constructor(room, ctx) {
     this.room = room;
     this.ctx = ctx;
-    this.radius = Math.random() * (120 - 20) + 20; // Assign a random radius between 20 and 120
+    this.radius = Math.random() * (120 - 20) + 20;
     this.position = this.randomPosition(this.room);
     this.room.center = this.center(room);
     this.attachedToMombie = false;
@@ -27,9 +27,6 @@ class Baby {
     } else {
       this.position = this.mombie.position;
     }
-
-    // this.collidesWith(this.room);
-    // this.draw(this.ctx);
   }
 
   center(room) {
@@ -56,9 +53,7 @@ class Baby {
 
   getDropped() {
     this.attachedToMombie = false;
-    // this.getAwayFrom(this.mombie);
     this.position = this.randomPosition(this.room);
-    // this.draw(this.ctx);
   }
 
   getAwayFrom(mombie) {
@@ -69,7 +64,7 @@ class Baby {
 
   randomPosition(room) {
     let angle = Math.random() * 2 * Math.PI;
-    this.radius = Math.random() * (120 - 20) + 20; // Assign a random radius between 20 and 120
+    this.radius = Math.random() * (120 - 20) + 20;
     let x = room.roomWidth / 2 + this.radius * Math.cos(angle);
     let y = room.roomHeight / 2 + this.radius * Math.sin(angle);
     return { x, y };

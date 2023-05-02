@@ -16,6 +16,15 @@ class Ball {
     window.addEventListener("mousedown", (event) => this.startPulling(event));
     window.addEventListener("mousemove", (event) => this.mouseMove(event));
     window.addEventListener("mouseup", (event) => this.fire());
+
+    window.addEventListener("touchstart", (event) =>
+      this.startPulling(event.touches[0])
+    );
+    window.addEventListener("touchmove", (event) => {
+      event.preventDefault(); // Prevents scrolling on touch devices
+      this.mouseMove(event.touches[0]);
+    });
+    window.addEventListener("touchend", (event) => this.fire());
   }
 
   center(room) {
