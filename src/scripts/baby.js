@@ -43,7 +43,7 @@ class Baby {
       this.position.x - this.room.center[0]
     );
     // Increment the angle by a small amount, divided by the radius
-    angle += 0.01;
+    angle += 0.2 / this.radius;
     // Use the angle to calculate the new x and y positions based on the baby's radius
     this.position.x = this.room.center[0] + this.radius * Math.cos(angle);
     this.position.y = this.room.center[1] + this.radius * Math.sin(angle);
