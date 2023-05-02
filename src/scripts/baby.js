@@ -2,9 +2,9 @@ class Baby {
   constructor(room, ctx) {
     this.room = room;
     this.ctx = ctx;
+    this.radius = Math.random() * (120 - 20) + 20; // Assign a random radius between 20 and 120
     this.position = this.randomPosition(this.room);
     this.room.center = this.center(room);
-    this.radius = 20;
     this.attachedToMombie = false;
     this.mombie = null;
     this.babyImg = new Image(20, 20);
@@ -42,11 +42,11 @@ class Baby {
       this.position.y - this.room.center[1],
       this.position.x - this.room.center[0]
     );
-    // Increment the angle by a small amount
+    // Increment the angle by a small amount, divided by the radius
     angle += 0.01;
-    // Use the angle to calculate the new x and y positions
-    this.position.x = this.room.center[0] + Math.cos(angle) * this.radius;
-    this.position.y = this.room.center[1] + Math.sin(angle) * this.radius;
+    // Use the angle to calculate the new x and y positions based on the baby's radius
+    this.position.x = this.room.center[0] + this.radius * Math.cos(angle);
+    this.position.y = this.room.center[1] + this.radius * Math.sin(angle);
   }
 
   getPickedUp(mombie) {
