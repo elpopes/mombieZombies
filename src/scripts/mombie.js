@@ -8,13 +8,13 @@ class Mombie {
       x: randomDoor.position.x,
       y: room.roomHeight / 2,
     };
+
     this.dir = randomDoor.dir;
     this.ball = ball;
     this.hit = false;
     this.radius = radius;
     this.game = game;
     this.baby = baby;
-
     this.room = room;
     this.ctx = canvas.getContext("2d");
     this.hasBaby = false;
@@ -103,10 +103,11 @@ class Mombie {
   }
 
   hitBy(ball) {
-    // Use threshold to fix stuck mombies
-    const threshold = 1;
+    // Check if the object is a ball
+    if (!(ball instanceof this.ball.constructor)) {
+      return;
+    }
     // calculate the distance between the center of the Mombie and the center of the ball
-    // console.log(ball);
     let distance = Math.sqrt(
       Math.pow(this.position.x - ball.position[0], 2) +
         Math.pow(this.position.y - ball.position[1], 2)
@@ -114,25 +115,21 @@ class Mombie {
 
     // check if the distance is less than the sum of the two radii
     if (distance < this.radius + ball.radius) {
-      //   debugger;
-      // collision flag
-      //   this.hit = true;
-      // drop baby...
-      // calculate the new velocity of the Mombie based on the ball's velocity
-      let newVelocity = {
-        x: ball.velocity[0] * -80,
-        y: ball.velocity[1] * -80,
-      };
-      //   debugger;
-      // apply the new velocity to the Mombie
-      if (
-        Math.abs(newVelocity.x) > threshold ||
-        Math.abs(newVelocity.y) > threshold
-      ) {
-        this.dropBaby(this.baby);
-        this.velocity.x = newVelocity.x;
-        this.velocity.y = newVelocity.y;
-      }
+      this.dropBaby(this.baby);
+
+      // Calculate direction to baby
+      let dx = this.baby.position.x - this.position.x;
+      let dy = this.baby.position.y - this.position.y;
+      let babyDistance = Math.sqrt(dx * dx + dy * dy);
+      dx /= babyDistance;
+      dy /= babyDistance;
+
+      // Apply the new velocity to the Mombie, but keep the magnitude of the impact
+      let impactMagnitude = Math.sqrt(
+        Math.pow(ball.velocity[0], 2) + Math.pow(ball.velocity[1], 2)
+      );
+      this.velocity.x = dx * impactMagnitude * -80;
+      this.velocity.y = dy * impactMagnitude * -80;
     }
   }
 

@@ -59,7 +59,7 @@ class Game {
     this.ball.update(deltaTime);
 
     for (let i = 0; i < this.mombies.length; i++) {
-      this.mombies[i].update();
+      this.mombies[i].update(deltaTime);
     }
     for (let i = 0; i < this.babies.length; i++) {
       this.babies[i].update();

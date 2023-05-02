@@ -45,10 +45,8 @@ class Baby {
     // Increment the angle by a small amount
     angle += 0.01;
     // Use the angle to calculate the new x and y positions
-    this.position.x =
-      this.room.center[0] + (Math.cos(angle) * this.room.circleRadius) / 4;
-    this.position.y =
-      this.room.center[1] + (Math.sin(angle) * this.room.circleRadius) / 4;
+    this.position.x = this.room.center[0] + Math.cos(angle) * this.radius;
+    this.position.y = this.room.center[1] + Math.sin(angle) * this.radius;
   }
 
   getPickedUp(mombie) {
@@ -71,8 +69,9 @@ class Baby {
 
   randomPosition(room) {
     let angle = Math.random() * 2 * Math.PI;
-    let x = room.roomWidth / 2 + (room.circleRadius / 2) * Math.cos(angle);
-    let y = room.roomHeight / 2 + (room.circleRadius / 2) * Math.sin(angle);
+    this.radius = Math.random() * (120 - 20) + 20; // Assign a random radius between 20 and 120
+    let x = room.roomWidth / 2 + this.radius * Math.cos(angle);
+    let y = room.roomHeight / 2 + this.radius * Math.sin(angle);
     return { x, y };
   }
 
