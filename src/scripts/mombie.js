@@ -70,7 +70,7 @@ class Mombie {
       }
 
       if (this.hit) {
-        this.friction = 0.95;
+        this.friction = 0.985;
         this.velocity.x *= this.friction;
         this.velocity.y *= this.friction;
         if (
