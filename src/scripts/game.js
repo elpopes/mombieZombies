@@ -103,7 +103,7 @@ class Game {
   mombieVMombie() {
     for (let i = 0; i < this.mombies.length; i++) {
       for (let j = 0; j < this.mombies.length; j++) {
-        if (i !== j) {
+        if (i !== j && !this.mombies[i].hasBaby && !this.mombies[j].hasBaby) {
           this.mombies[i].bounce(this.mombies[j]);
         }
       }
