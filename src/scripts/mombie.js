@@ -166,6 +166,7 @@ class Mombie {
     // Check for collision with the windows
     // Top left
     if (
+      !this.hasBaby &&
       this.position.x >= this.room.topLeftWindow.position.x &&
       this.position.x <=
         this.room.topLeftWindow.position.x + room.topLeftWindow.width &&
@@ -176,6 +177,7 @@ class Mombie {
     }
     // Top right
     if (
+      !this.hasBaby &&
       this.position.x >= this.room.topRightWindow.position.x &&
       this.position.x <=
         this.room.topRightWindow.position.x + this.room.topRightWindow.width &&
@@ -186,6 +188,7 @@ class Mombie {
     }
     // Bottom left
     if (
+      !this.hasBaby &&
       this.position.x >= this.room.bottomLeftWindow.position.x &&
       this.position.x <=
         this.room.bottomLeftWindow.position.x +
@@ -198,6 +201,7 @@ class Mombie {
     }
     // Bottom right
     if (
+      !this.hasBaby &&
       this.position.x >= this.room.bottomRightWindow.position.x &&
       this.position.x <=
         this.room.bottomRightWindow.position.x +
