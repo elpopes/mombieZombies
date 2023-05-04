@@ -113,9 +113,11 @@ class Ball {
       this.position[0] <=
         this.room.bottomRightWindow.position.x +
           this.room.bottomRightWindow.width &&
-      this.position[1] >=
-        this.room.bottomRightWindow.position.y -
-          this.room.bottomLeftWindow.height
+      this.position[1] + this.radius >=
+        this.room.bottomRightWindow.position.y &&
+      this.position[1] - this.radius <=
+        this.room.bottomRightWindow.position.y +
+          this.room.bottomRightWindow.height
     ) {
       this.position = this.center(this.room);
       this.velocity = [0, 0];

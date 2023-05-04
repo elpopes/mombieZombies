@@ -2,7 +2,6 @@ import Baby from "./baby";
 import Mombie from "./mombie";
 import Ball from "./ball";
 import GameView from "./game_view";
-import Util from "./util";
 
 class Game {
   debugger;
