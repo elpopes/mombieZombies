@@ -200,23 +200,6 @@ class Ball {
     return false;
   }
 
-  //   calculateBounce(laserEnd) {
-  //     const bounce = { x: laserEnd.x, y: laserEnd.y };
-  //     const hitWallX = laserEnd.x <= 0 || laserEnd.x >= this.room.roomWidth;
-  //     const hitWallY = laserEnd.y <= 0 || laserEnd.y >= this.room.roomHeight;
-  //     const notWindow = !this.collidesWithWindow(this.room, laserEnd);
-
-  //     if (hitWallX && notWindow) {
-  //       bounce.x = hitWallX ? this.room.roomWidth - laserEnd.x : laserEnd.x;
-  //     }
-
-  //     if (hitWallY && notWindow) {
-  //       bounce.y = hitWallY ? this.room.roomHeight - laserEnd.y : laserEnd.y;
-  //     }
-
-  //     return bounce;
-  //   }
-
   drawLaser() {
     if (this.pulling) {
       const pullDistance = this.getPullDistance();
@@ -263,7 +246,7 @@ class Ball {
     this.velocity[0] *= this.decay;
     this.velocity[1] *= this.decay;
 
-    // if ball stops moving recenter
+    // if ball stops moving recenter and user's not pulling, recenter
     if (
       Math.abs(this.velocity[0]) < 0.01 &&
       Math.abs(this.velocity[1]) < 0.01 &&
