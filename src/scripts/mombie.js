@@ -83,7 +83,6 @@ class Mombie {
       }
 
       if (this.frame > 40) {
-        this.hitBy(this.ball);
         this.collidesWith(this.room);
       }
 
@@ -93,33 +92,35 @@ class Mombie {
   }
 
   hitBy(ball) {
-    // Check if the object is a ball
-    if (!(ball instanceof this.ball.constructor)) {
+    // Check if the object is a ball and if the mombie is past its 40th frame
+    if (!(ball instanceof this.ball.constructor) || this.frame <= 40) {
       return;
     }
-    // calculate the distance between the center of the Mombie and the center of the ball
-    let distance = Math.sqrt(
-      Math.pow(this.position.x - ball.position[0], 2) +
-        Math.pow(this.position.y - ball.position[1], 2)
-    );
 
-    // check if the distance is less than the sum of the two radii
+    this.hit = true;
+    // Calculate the distance and collision angle between the Mombie and the ball
+    const dx = ball.position[0] - this.position.x;
+    const dy = ball.position[1] - this.position.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Check if the distance is less than the sum of the two radii
     if (distance < this.radius + ball.radius) {
       this.dropBaby(this.baby);
 
-      // Calculate direction to baby
-      let dx = this.baby.position.x - this.position.x;
-      let dy = this.baby.position.y - this.position.y;
-      let babyDistance = Math.sqrt(dx * dx + dy * dy);
-      dx /= babyDistance;
-      dy /= babyDistance;
+      const mombie_mass = 1; // Assuming equal mass for both objects
+      const ball_mass = 100; // Assuming equal mass for both objects
 
-      // Apply the new velocity to the Mombie, but keep the magnitude of the impact
-      let impactMagnitude = Math.sqrt(
-        Math.pow(ball.velocity[0], 2) + Math.pow(ball.velocity[1], 2)
-      );
-      this.velocity.x = dx * impactMagnitude * -80;
-      this.velocity.y = dy * impactMagnitude * -80;
+      const new_velocity_mombie_x =
+        (this.velocity.x * (mombie_mass - ball_mass) +
+          2 * ball_mass * ball.velocity[0]) /
+        (mombie_mass + ball_mass);
+      const new_velocity_mombie_y =
+        (this.velocity.y * (mombie_mass - ball_mass) +
+          2 * ball_mass * ball.velocity[1]) /
+        (mombie_mass + ball_mass);
+
+      this.velocity.x = new_velocity_mombie_x;
+      this.velocity.y = new_velocity_mombie_y;
     }
   }
 
@@ -137,7 +138,7 @@ class Mombie {
       // collision flag
       this.hit = true;
       // drop baby...
-      this.dropBaby(this.baby);
+      //   this.dropBaby(this.baby);
       // calculate the new velocity of the Mombie based on the mombie's velocity
 
       let newVelocity = {

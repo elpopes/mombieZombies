@@ -58,7 +58,7 @@ class Ball {
   fire() {
     this.pulling = false;
     // speed variable
-    let speed = 50;
+    let speed = 20;
     // Set the velocity to be the opposite of the pull direction divided by speed
     this.velocity = [
       -this.pullDirection[0] / speed,
@@ -264,13 +264,14 @@ class Ball {
     this.velocity[1] *= this.decay;
 
     // if ball stops moving recenter
-    // if (
-    //   Math.abs(this.velocity[0]) < 0.01 &&
-    //   Math.abs(this.velocity[1]) < 0.01
-    // ) {
-    //   this.position = this.center(this.room);
-    //   this.velocity = [0, 0];
-    // }
+    if (
+      Math.abs(this.velocity[0]) < 0.01 &&
+      Math.abs(this.velocity[1]) < 0.01 &&
+      !this.pulling
+    ) {
+      this.position = this.center(this.room);
+      this.velocity = [0, 0];
+    }
     this.draw();
   }
 
