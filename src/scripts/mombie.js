@@ -208,9 +208,10 @@ class Mombie {
       this.position.x <=
         this.room.bottomRightWindow.position.x +
           this.room.bottomRightWindow.width &&
-      this.position.y >=
-        this.room.bottomRightWindow.position.y -
-          this.room.bottomLeftWindow.height
+      this.position.y + this.radius >= this.room.bottomRightWindow.position.y &&
+      this.position.y - this.radius <=
+        this.room.bottomRightWindow.position.y +
+          this.room.bottomRightWindow.height
     ) {
       this.outWindow();
     }
