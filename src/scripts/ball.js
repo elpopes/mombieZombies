@@ -73,55 +73,55 @@ class Ball {
   collidesWith(room, deltaTime) {
     // Check for collision with the windows
     // Top left
-    if (
-      this.position[0] >= this.room.topLeftWindow.position.x &&
-      this.position[0] <=
-        this.room.topLeftWindow.position.x + room.topLeftWindow.width &&
-      this.position[1] - this.radius <=
-        this.room.topLeftWindow.position.y + this.room.topLeftWindow.height
-    ) {
-      this.position = this.center(this.room);
-      this.velocity = [0, 0];
-    }
-    // Top right
-    if (
-      this.position[0] >= this.room.topRightWindow.position.x &&
-      this.position[0] <=
-        this.room.topRightWindow.position.x + this.room.topRightWindow.width &&
-      this.position[1] - this.radius <=
-        this.room.topRightWindow.position.y + this.room.topLeftWindow.height
-    ) {
-      this.position = this.center(this.room);
-      this.velocity = [0, 0];
-    }
-    // Bottom left
-    if (
-      this.position[0] >= this.room.bottomLeftWindow.position.x &&
-      this.position[0] <=
-        this.room.bottomLeftWindow.position.x +
-          this.room.bottomLeftWindow.width &&
-      this.position[1] + this.radius >=
-        this.room.bottomLeftWindow.position.y -
-          this.room.bottomLeftWindow.height
-    ) {
-      this.position = this.center(this.room);
-      this.velocity = [0, 0];
-    }
-    // Bottom right
-    if (
-      this.position[0] >= this.room.bottomRightWindow.position.x &&
-      this.position[0] <=
-        this.room.bottomRightWindow.position.x +
-          this.room.bottomRightWindow.width &&
-      this.position[1] + this.radius >=
-        this.room.bottomRightWindow.position.y &&
-      this.position[1] - this.radius <=
-        this.room.bottomRightWindow.position.y +
-          this.room.bottomRightWindow.height
-    ) {
-      this.position = this.center(this.room);
-      this.velocity = [0, 0];
-    }
+    // if (
+    //   this.position[0] >= this.room.topLeftWindow.position.x &&
+    //   this.position[0] <=
+    //     this.room.topLeftWindow.position.x + room.topLeftWindow.width &&
+    //   this.position[1] - this.radius <=
+    //     this.room.topLeftWindow.position.y + this.room.topLeftWindow.height
+    // ) {
+    //   this.position = this.center(this.room);
+    //   this.velocity = [0, 0];
+    // }
+    // // Top right
+    // if (
+    //   this.position[0] >= this.room.topRightWindow.position.x &&
+    //   this.position[0] <=
+    //     this.room.topRightWindow.position.x + this.room.topRightWindow.width &&
+    //   this.position[1] - this.radius <=
+    //     this.room.topRightWindow.position.y + this.room.topLeftWindow.height
+    // ) {
+    //   this.position = this.center(this.room);
+    //   this.velocity = [0, 0];
+    // }
+    // // Bottom left
+    // if (
+    //   this.position[0] >= this.room.bottomLeftWindow.position.x &&
+    //   this.position[0] <=
+    //     this.room.bottomLeftWindow.position.x +
+    //       this.room.bottomLeftWindow.width &&
+    //   this.position[1] + this.radius >=
+    //     this.room.bottomLeftWindow.position.y -
+    //       this.room.bottomLeftWindow.height
+    // ) {
+    //   this.position = this.center(this.room);
+    //   this.velocity = [0, 0];
+    // }
+    // // Bottom right
+    // if (
+    //   this.position[0] >= this.room.bottomRightWindow.position.x &&
+    //   this.position[0] <=
+    //     this.room.bottomRightWindow.position.x +
+    //       this.room.bottomRightWindow.width &&
+    //   this.position[1] + this.radius >=
+    //     this.room.bottomRightWindow.position.y &&
+    //   this.position[1] - this.radius <=
+    //     this.room.bottomRightWindow.position.y +
+    //       this.room.bottomRightWindow.height
+    // ) {
+    //   this.position = this.center(this.room);
+    //   this.velocity = [0, 0];
+    // }
     // Check for collision with the walls
     if (
       this.position[0] - this.radius <= 0 ||
@@ -200,22 +200,22 @@ class Ball {
     return false;
   }
 
-  calculateBounce(laserEnd) {
-    const bounce = { x: laserEnd.x, y: laserEnd.y };
-    const hitWallX = laserEnd.x <= 0 || laserEnd.x >= this.room.roomWidth;
-    const hitWallY = laserEnd.y <= 0 || laserEnd.y >= this.room.roomHeight;
-    const notWindow = !this.collidesWithWindow(this.room, laserEnd);
+  //   calculateBounce(laserEnd) {
+  //     const bounce = { x: laserEnd.x, y: laserEnd.y };
+  //     const hitWallX = laserEnd.x <= 0 || laserEnd.x >= this.room.roomWidth;
+  //     const hitWallY = laserEnd.y <= 0 || laserEnd.y >= this.room.roomHeight;
+  //     const notWindow = !this.collidesWithWindow(this.room, laserEnd);
 
-    if (hitWallX && notWindow) {
-      bounce.x = hitWallX ? this.room.roomWidth - laserEnd.x : laserEnd.x;
-    }
+  //     if (hitWallX && notWindow) {
+  //       bounce.x = hitWallX ? this.room.roomWidth - laserEnd.x : laserEnd.x;
+  //     }
 
-    if (hitWallY && notWindow) {
-      bounce.y = hitWallY ? this.room.roomHeight - laserEnd.y : laserEnd.y;
-    }
+  //     if (hitWallY && notWindow) {
+  //       bounce.y = hitWallY ? this.room.roomHeight - laserEnd.y : laserEnd.y;
+  //     }
 
-    return bounce;
-  }
+  //     return bounce;
+  //   }
 
   drawLaser() {
     if (this.pulling) {
@@ -264,13 +264,13 @@ class Ball {
     this.velocity[1] *= this.decay;
 
     // if ball stops moving recenter
-    if (
-      Math.abs(this.velocity[0]) < 0.01 &&
-      Math.abs(this.velocity[1]) < 0.01
-    ) {
-      this.position = this.center(this.room);
-      this.velocity = [0, 0];
-    }
+    // if (
+    //   Math.abs(this.velocity[0]) < 0.01 &&
+    //   Math.abs(this.velocity[1]) < 0.01
+    // ) {
+    //   this.position = this.center(this.room);
+    //   this.velocity = [0, 0];
+    // }
     this.draw();
   }
 
