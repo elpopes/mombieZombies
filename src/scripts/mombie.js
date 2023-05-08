@@ -223,20 +223,16 @@ class Mombie {
     if (this.position.x - this.radius <= 0) {
       this.position.x = this.radius + margin;
       this.velocity.x *= -1;
-      debugger;
     } else if (this.position.x + this.radius >= room.roomWidth) {
       this.position.x = room.roomWidth - this.radius - margin;
       this.velocity.x *= -1;
-      debugger;
     }
     if (this.position.y - this.radius <= 0) {
       this.position.y = this.radius + margin;
       this.velocity.y *= -1;
-      debugger;
     } else if (this.position.y + this.radius >= room.roomHeight) {
       this.position.y = room.roomHeight - this.radius - margin;
       this.velocity.y *= -1;
-      debugger;
     }
   }
 
